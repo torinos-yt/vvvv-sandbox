@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
-   <PATCH nodename="F:\vvvv\work\Geom_Test\gstest.v4p" scrollx="45" scrolly="60" systemname="gstest" filename="F:\vvvv\work\Geom_Test\gstest.v4p">
+   <PATCH nodename="F:\vvvv\work\sandbox\Geom_Test\gstest.v4p" scrollx="45" scrolly="60" systemname="gstest" filename="F:\vvvv\work\Geom_Test\gstest.v4p">
    <BOUNDS type="Window" left="2325" top="2220" width="9000" height="9855">
    </BOUNDS>
    <NODE systemname="Teapot (DX11 Geometry)" filename="%VVVV%\packs\InstanceNoodles\nodes\modules\DX11.Geometry\Teapot (DX11 Geometry).v4p" nodename="Teapot (DX11 Geometry)" componentmode="Hidden" id="0">
@@ -13,7 +13,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="1815" top="8610" width="6000" height="4500">
    </BOUNDS>
-   <BOUNDS type="Window" left="12840" top="3120" width="9195" height="7140">
+   <BOUNDS type="Window" left="15255" top="1035" width="9195" height="7140">
    </BOUNDS>
    <PIN pinname="Layers" visible="1">
    </PIN>
@@ -289,11 +289,13 @@
    </BOUNDS>
    <BOUNDS type="Box" left="225" top="0" width="8095" height="6330">
    </BOUNDS>
-   <BOUNDS type="Window" left="10350" top="4785" width="12720" height="9630">
+   <BOUNDS type="Window" left="12465" top="6750" width="12720" height="9630">
    </BOUNDS>
    <PIN pinname="Plane XYZ" visible="1" slicecount="3" values="0,0.692820202636411,0">
    </PIN>
    <PIN pinname="Geometry Out" visible="1">
+   </PIN>
+   <PIN pinname="ang" visible="1" slicecount="1" values="360">
    </PIN>
    </NODE>
    <LINK srcnodeid="0" srcpinname="Geometry Out" dstnodeid="86" dstpinname="Geometry In">

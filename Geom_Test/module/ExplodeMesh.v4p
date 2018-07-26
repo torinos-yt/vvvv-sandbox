@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
-   <PATCH nodename="F:\vvvv\work\Geom_Test\module\ExplodeMesh.v4p" systemname="ExplodeMesh" filename="F:\vvvv\work\Geom_Test\module\ExplodeMesh.v4p">
+   <PATCH nodename="F:\vvvv\work\sandbox\Geom_Test\module\ExplodeMesh.v4p" systemname="ExplodeMesh" filename="F:\vvvv\work\Geom_Test\module\ExplodeMesh.v4p">
    <NODE systemname="Test (DX11.GeomFX)" filename="..\geom11\Test.gsfx" nodename="Test (DX11.GeomFX)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="1500" top="3660" width="100" height="100">
    </BOUNDS>
@@ -203,6 +203,8 @@
    </BOUNDS>
    <BOUNDS type="Node" left="3915" top="500" width="750" height="240">
    </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="360">
+   </PIN>
    </NODE>
    <LINK srcnodeid="14" srcpinname="Y Output Value" dstnodeid="0" dstpinname="ang">
    </LINK>
@@ -282,7 +284,7 @@
    </LINK>
    <LINK srcnodeid="6" srcpinname="Output" dstnodeid="4" dstpinname="Evaluate">
    </LINK>
-   <BOUNDS type="Window" left="10350" top="4785" width="12720" height="9630">
+   <BOUNDS type="Window" left="12465" top="6750" width="12720" height="9630">
    </BOUNDS>
    <PACK Name="dx11" Version="1.3.1">
    </PACK>
