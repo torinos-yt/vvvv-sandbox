@@ -9,6 +9,7 @@ SamplerState linearSampler: IMMUTABLE
     AddressV = Wrap;
 };
 
+float4x4 tW;
 
 
 float3 fpos;
@@ -72,7 +73,7 @@ vs2gs VS(
 {
 	vs2gs Out;
 	
-	Out.pos = PosO;
+	Out.pos = mul(PosO, tW);
 	Out.norm = Normal;
 	Out.UV = UV;
 	
