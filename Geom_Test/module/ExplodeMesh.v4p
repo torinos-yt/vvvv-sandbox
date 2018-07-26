@@ -139,9 +139,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="9" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Box" left="8595" top="1620" width="1290" height="870">
+   <BOUNDS type="Box" left="8490" top="1425" width="1290" height="870">
    </BOUNDS>
-   <BOUNDS type="Node" left="8595" top="1620" width="0" height="0">
+   <BOUNDS type="Node" left="8490" top="1425" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="3" values="Position,Normal,TextureCoord">
    </PIN>
