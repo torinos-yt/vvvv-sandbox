@@ -1,0 +1,154 @@
+
+
+#include "../fxh/SimplexNoise3D.fxh"
+
+SamplerState linearSampler: IMMUTABLE
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
+
+
+float3 fpos;
+float fall;
+float factor;
+float ang;
+float Size;
+
+float Map(float input, float dmi, float dma, float ami, float ama){
+	return ((input - dmi) / (dma - dmi)) * (ami - ama) + ami;
+}
+
+float Map01(float input, float dmi, float dma){
+	return ((input - dmi) / (dma - dmi));
+}
+
+float4x4 rotmat(float angle){
+	return float4x4(cos(radians(angle)), 0, sin(radians(angle)), 0,
+					0				   , 1, 0                  , 0,
+					-sin(radians(angle)), 0, cos(radians(angle)),0,
+					0                  , 0, 0                  , 1);
+}
+
+#define EPSILON 1e-3
+float3 CurlNoise(float3 coord)
+{
+	float3 dx = float3(EPSILON, 0.0, 0.0);
+	float3 dy = float3(0.0, EPSILON, 0.0);
+	float3 dz = float3(0.0, 0.0, EPSILON);
+	float3 dpdx0 = snoise(coord - dx);
+	float3 dpdx1 = snoise(coord + dx);
+	float3 dpdy0 = snoise(coord - dy);
+	float3 dpdy1 = snoise(coord + dy);
+	float3 dpdz0 = snoise(coord - dz);
+	float3 dpdz1 = snoise(coord + dz);
+	float x = dpdy1.z - dpdy0.z + dpdz1.y - dpdz0.y;
+	float y = dpdz1.x - dpdz0.x + dpdx1.z - dpdx0.z;
+	float z = dpdx1.y - dpdx0.y + dpdy1.x - dpdy0.x;
+	return float3(x, y, z) / EPSILON * 2.0;
+}
+
+struct vs2gs
+{
+	float4 pos: POSITION;
+	float3 norm: NORMAL;
+	float2 UV: TEXCOORD0;
+};
+
+struct gsout
+{
+    float4 pos: POSITION;
+    float3 norm : NORMAL;
+    float2 TexCd : TEXCOORD0;
+};
+
+vs2gs VS(
+	float4 PosO: POSITION,
+	float3 Normal: NORMAL,
+	float2 UV: TEXCOORD0,
+	uint InstanceID: SV_VertexID)
+{
+	vs2gs Out;
+	
+	Out.pos = PosO;
+	Out.norm = Normal;
+	Out.UV = UV;
+	
+    return Out;
+}
+
+[maxvertexcount(7)]
+void GS_Test(triangle vs2gs input[3], inout TriangleStream<gsout> outstream){
+	
+	
+	float3 p1 = input[1].pos.xyz - input[0].pos.xyz;
+	float3 p2 = input[2].pos.xyz - input[0].pos.xyz;
+	
+	float3 c = float3(0,0,0);
+	for(int i = 0; i < 3; i++){
+		c += float3(input[i].pos.xyz);
+	}
+	float3 center = c / 3;
+	
+	float4 n = float4(normalize(cross(p1, p2)), 0);
+	float3 nx = normalize(cross(n.xyz, p2));
+	float3 nz = normalize(cross(n.xyz, nx));
+	float falla = saturate(Map01(input[0].pos.y, fpos.y - fall/2, fpos.y + fall/2));
+	float fallof = saturate(Map01(input[0].pos.y, fpos.y - fall/2, fpos.y + fall/2) - .25);
+	float fallin = saturate(Map01(input[0].pos.y, fpos.y - fall/2, fpos.y + fall/2) * 2.5);
+	fallof = smoothstep(0, 1, fallof);
+	fallin = smoothstep(0, 1, fallin);
+	
+	float size = Size * (1 - fallof) * fallin;
+	
+	float3 ndis = (n.xyz * factor + CurlNoise(input[0].pos.xyz) * .05 + float3(0, 1.8, 0)) * fallof;
+	float3 ydis = (float3(4, -15, 4) * (abs(CurlNoise(input[0].pos.xyz)*1.5) + 5) * .001) * fallin;
+	
+	gsout o = (gsout)0;
+	if(falla < .2){
+		for(i = 0; i < 3; i++){
+			o.pos = mul(input[i].pos.xyz + ndis + ydis, rotmat(ang * fallof) + snoise(input[0].pos.xyz) * .35 * fallof);
+			o.norm = input[i].norm;
+			o.TexCd = input[i].UV;
+			outstream.Append(o);
+		}
+		outstream.RestartStrip();
+	}
+		o.norm = n.xyz;
+		o.TexCd = input[0].UV;
+	
+		o.pos = float4(center + ((-nx + nz) * size), 1);
+		o.pos = mul(o.pos + ndis + ydis, rotmat(ang * fallof) + snoise(input[0].pos.xyz) * .35 * fallof);
+		outstream.Append(o);
+	
+		o.pos = float4(center + ((nx + nz) * size), 1);
+		o.pos = mul(o.pos + ndis + ydis, rotmat(ang * fallof) + snoise(input[0].pos.xyz) * .35 * fallof);
+		outstream.Append(o);
+	
+		o.pos = float4(center + ((-nx - nz) * size), 1);
+		o.pos = mul(o.pos + ndis + ydis, rotmat(ang * fallof) + snoise(input[0].pos.xyz) * .35 * fallof);
+		outstream.Append(o);
+	
+		o.pos = float4(center + ((nx - nz) * size), 1);
+		o.pos = mul(o.pos + ndis + ydis, rotmat(ang * fallof) + snoise(input[0].pos.xyz) * .35 * fallof);
+		outstream.Append(o);
+		
+	
+	
+	outstream.RestartStrip();
+}
+
+
+
+GeometryShader StreamOutGS = ConstructGSWithSO( CompileShader( gs_4_0, GS_Test() ), "POSITION.xyz;NORMAL.xyz;TEXCOORD.xy");
+
+technique10 PassMesh
+{
+    pass PP2
+    {
+        SetVertexShader( CompileShader( vs_4_0, VS() ) );
+        SetGeometryShader( StreamOutGS );
+    }  
+}
