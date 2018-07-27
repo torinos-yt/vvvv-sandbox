@@ -21,7 +21,7 @@
    </PIN>
    <PIN pinname="factor" visible="1">
    </PIN>
-   <PIN pinname="fall" visible="1">
+   <PIN pinname="fall" visible="1" slicecount="1" values="0">
    </PIN>
    <PIN pinname="fposXYZ" visible="1">
    </PIN>
@@ -32,6 +32,12 @@
    <PIN pinname="Size" visible="1">
    </PIN>
    <PIN pinname="tW" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="NoiseScale" visible="1">
+   </PIN>
+   <PIN pinname="Time" visible="1">
+   </PIN>
+   <PIN pinname="Fall" visible="1">
    </PIN>
    </NODE>
    <NODE systemname="FallofRender (DX11.Effect)" filename="..\dx11\FallofRender.fx" nodename="FallofRender (DX11.Effect)" componentmode="Hidden" id="1">
@@ -189,10 +195,12 @@
    <NODE id="13" systemname="IOBox (Value Advanced)" componentmode="InABox" nodename="IOBox (Value Advanced)">
    <PIN pinname="Descriptive Name" slicecount="1" values="|fall Length|">
    </PIN>
-   <BOUNDS type="Box" left="7200" top="440" width="750" height="240">
+   <BOUNDS type="Box" left="6855" top="455" width="750" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="7200" top="440" width="750" height="240">
+   <BOUNDS type="Node" left="6855" top="455" width="750" height="240">
    </BOUNDS>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
    </NODE>
    <LINK srcnodeid="13" srcpinname="Y Output Value" dstnodeid="0" dstpinname="fall">
    </LINK>
@@ -227,9 +235,9 @@
    <NODE id="16" systemname="IOBox (Value Advanced)" componentmode="InABox" nodename="IOBox (Value Advanced)">
    <PIN pinname="Descriptive Name" slicecount="1" values="Size">
    </PIN>
-   <BOUNDS type="Box" left="6150" top="425" width="735" height="240">
+   <BOUNDS type="Box" left="6015" top="395" width="735" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="6150" top="425" width="750" height="240">
+   <BOUNDS type="Node" left="6015" top="395" width="750" height="240">
    </BOUNDS>
    </NODE>
    <LINK srcnodeid="16" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Size">
@@ -255,9 +263,9 @@
    <NODE id="20" systemname="IOBox (Value Advanced)" componentmode="InABox" nodename="IOBox (Value Advanced)">
    <PIN pinname="Descriptive Name" slicecount="1" values="Helper">
    </PIN>
-   <BOUNDS type="Box" left="9345" top="545" width="750" height="240">
+   <BOUNDS type="Box" left="9600" top="470" width="750" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="9345" top="545" width="750" height="240">
+   <BOUNDS type="Node" left="9600" top="470" width="750" height="240">
    </BOUNDS>
    </NODE>
    <LINK srcnodeid="20" srcpinname="Y Output Value" dstnodeid="1" dstpinname="Enabled">
@@ -286,7 +294,7 @@
    </LINK>
    <LINK srcnodeid="6" srcpinname="Output" dstnodeid="4" dstpinname="Evaluate">
    </LINK>
-   <BOUNDS type="Window" left="2280" top="2385" width="12720" height="9630">
+   <BOUNDS type="Window" left="630" top="4140" width="12720" height="9630">
    </BOUNDS>
    <PACK Name="dx11" Version="1.3.1">
    </PACK>
@@ -323,5 +331,39 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="23" srcpinname="Output Node" dstnodeid="0" dstpinname="tW">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="24">
+   <BOUNDS type="Box" left="7680" top="450" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="7680" top="450" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1.61">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="NoiseScale">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="24" srcpinname="Y Output Value" dstnodeid="0" dstpinname="NoiseScale">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="25">
+   <BOUNDS type="Box" left="8490" top="405" width="840" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="8490" top="405" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Time">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="25" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Time">
+   </LINK>
+   <LINK srcnodeid="13" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Fall">
    </LINK>
    </PATCH>

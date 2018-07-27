@@ -17,6 +17,8 @@ float fall;
 float factor;
 float ang;
 float Size;
+float Time;
+float NoiseScale = 1;
 
 float Map(float input, float dmi, float dma, float ami, float ama){
 	return ((input - dmi) / (dma - dmi)) * (ami - ama) + ami;
@@ -81,7 +83,7 @@ vs2gs VS(
 }
 
 [maxvertexcount(7)]
-void GS_Test(triangle vs2gs input[3], inout TriangleStream<gsout> outstream){
+void GS_Test(triangle vs2gs input[3], inout TriangleStream<gsout> outstream, uint pid : SV_PrimitiveID){
 	
 	
 	float3 p1 = input[1].pos.xyz - input[0].pos.xyz;
@@ -92,6 +94,7 @@ void GS_Test(triangle vs2gs input[3], inout TriangleStream<gsout> outstream){
 		c += float3(input[i].pos.xyz);
 	}
 	float3 center = c / 3;
+	
 	
 	float4 n = float4(normalize(cross(p1, p2)), 0);
 	float3 nx = normalize(cross(n.xyz, p2));
@@ -104,13 +107,13 @@ void GS_Test(triangle vs2gs input[3], inout TriangleStream<gsout> outstream){
 	
 	float size = Size * (1 - fallof) * fallin;
 	
-	float3 ndis = (n.xyz * factor + CurlNoise(input[0].pos.xyz) * .05 + float3(0, 1.8, 0)) * fallof;
-	float3 ydis = (float3(4, -15, 4) * (abs(CurlNoise(input[0].pos.xyz)*1.5) + 5) * .001) * fallin;
+	float3 ndis = (n.xyz * factor + CurlNoise((input[0].pos.xyz * NoiseScale) + Time) * .05 + float3(0, 1.8, 0)) * fallof;
+	float3 ydis = (float3(4, -15, 4) * (abs(CurlNoise((input[0].pos.xyz * NoiseScale) + Time)*1.5) + 5) * .001) * fallin;
 	
 	gsout o = (gsout)0;
 	if(falla < .2){
 		for(i = 0; i < 3; i++){
-			o.pos = mul(input[i].pos.xyz + ndis + ydis, rotmat(ang * fallof) + snoise(input[0].pos.xyz) * .35 * fallof);
+			o.pos = mul(input[i].pos.xyz + ndis + ydis, rotmat(ang * fallof) + snoise((input[0].pos.xyz * NoiseScale) + Time) * .35 * fallof);
 			o.norm = input[i].norm;
 			o.TexCd = input[i].UV;
 			outstream.Append(o);
