@@ -1,0 +1,255 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
+   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p" scrollx="495" scrolly="0" systemname="LightStruct" filename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p">
+   <NODE systemname="DynamicBuffer (DX11.Buffer Custom)" filename="%VVVV%\packs\mp.dx\nodes\plugins\DX11Utils\x64\DX11Utils.dll" nodename="DynamicBuffer (DX11.Buffer Custom)" componentmode="Hidden" id="0">
+   <BOUNDS type="Node" left="2895" top="3540" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2895" top="3540" width="3000" height="3000">
+   </BOUNDS>
+   <PIN pinname="Data" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Strides" slicecount="1" values="48" visible="1">
+   </PIN>
+   <PIN pinname="Buffer" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Cons (3d)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Cons (3d)" componentmode="Hidden" id="1">
+   <BOUNDS type="Node" left="2910" top="2625" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2910" top="2625" width="3000" height="3000">
+   </BOUNDS>
+   <PIN pinname="Input Count" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Input 1XYZ" visible="1">
+   </PIN>
+   <PIN pinname="Input 2XYZ" visible="1" slicecount="4" values="0,1,0,1">
+   </PIN>
+   <PIN pinname="Input 3XYZ" visible="1">
+   </PIN>
+   <PIN pinname="Input 4XYZ" visible="1">
+   </PIN>
+   <PIN pinname="OutputXYZ" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="RGB (Color Split)" filename="" nodename="RGB (Color Split)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="2160" top="930" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2160" top="930" width="3000" height="3000">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname=" RGBA" visible="1">
+   </PIN>
+   <PIN pinname="Red" visible="1">
+   </PIN>
+   <PIN pinname="Green" visible="1">
+   </PIN>
+   <PIN pinname="Blue" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Vector (3d Join)" nodename="Vector (3d Join)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="2145" top="1335" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="X" visible="1">
+   </PIN>
+   <PIN pinname="Y" visible="1">
+   </PIN>
+   <PIN pinname="Z" visible="1">
+   </PIN>
+   <PIN pinname="XYZ" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="RGB (Color Split)" filename="" nodename="RGB (Color Split)" componentmode="Hidden" id="4">
+   <BOUNDS type="Node" left="3495" top="915" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3495" top="915" width="3000" height="3000">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="|1.00000,1.00000,1.00000,1.00000|">
+   </PIN>
+   <PIN pinname=" RGBA" visible="1">
+   </PIN>
+   <PIN pinname="Red" visible="1">
+   </PIN>
+   <PIN pinname="Green" visible="1">
+   </PIN>
+   <PIN pinname="Blue" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Vector (3d Join)" nodename="Vector (3d Join)" componentmode="Hidden" id="5">
+   <BOUNDS type="Node" left="3450" top="1440" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="X" visible="1">
+   </PIN>
+   <PIN pinname="Y" visible="1">
+   </PIN>
+   <PIN pinname="Z" visible="1">
+   </PIN>
+   <PIN pinname="XYZ" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="RGB (Color Split)" filename="" nodename="RGB (Color Split)" componentmode="Hidden" id="6">
+   <BOUNDS type="Node" left="4755" top="930" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4755" top="930" width="3000" height="3000">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="|1.00000,1.00000,1.00000,1.00000|">
+   </PIN>
+   <PIN pinname=" RGBA" visible="1">
+   </PIN>
+   <PIN pinname="Red" visible="1">
+   </PIN>
+   <PIN pinname="Green" visible="1">
+   </PIN>
+   <PIN pinname="Blue" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Vector (3d Join)" nodename="Vector (3d Join)" componentmode="Hidden" id="7">
+   <BOUNDS type="Node" left="4710" top="1455" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="X" visible="1">
+   </PIN>
+   <PIN pinname="Y" visible="1">
+   </PIN>
+   <PIN pinname="Z" visible="1">
+   </PIN>
+   <PIN pinname="XYZ" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="AsRaw (Value)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="AsRaw (Value)" componentmode="Hidden" id="8">
+   <BOUNDS type="Node" left="2895" top="3015" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2895" top="3015" width="3000" height="3000">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Format" slicecount="1" values="Single">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="9" systemname="IOBox (Node)">
+   <BOUNDS type="Box" left="2910" top="4020" width="855" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2910" top="4020" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Light Struct|">
+   </PIN>
+   <PIN pinname="Output Node" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Buffer" dstnodeid="9" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="8" srcpinname="Output" dstnodeid="0" dstpinname="Data">
+   </LINK>
+   <LINK srcnodeid="1" srcpinname="OutputXYZ" dstnodeid="8" dstpinname="Input">
+   </LINK>
+   <NODE id="10" systemname="IOBox (Value Advanced)" componentmode="InABox" nodename="IOBox (Value Advanced)">
+   <PIN pinname="Descriptive Name" slicecount="1" values="Position">
+   </PIN>
+   <BOUNDS type="Box" left="1080" top="1265" width="750" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1080" top="1265" width="750" height="240">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="10" srcpinname="Y Output Value" dstnodeid="1" dstpinname="Input 1XYZ" linkstyle="Bezier">
+   <LINKPOINT x="1140" y="2055">
+   </LINKPOINT>
+   <LINKPOINT x="2745" y="2295">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="3" srcpinname="XYZ" dstnodeid="1" dstpinname="Input 2XYZ" linkstyle="Bezier">
+   <LINKPOINT x="2220" y="2115">
+   </LINKPOINT>
+   <LINKPOINT x="2835" y="2280">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="5" srcpinname="XYZ" dstnodeid="1" dstpinname="Input 3XYZ" linkstyle="Bezier">
+   <LINKPOINT x="3465" y="2168">
+   </LINKPOINT>
+   <LINKPOINT x="3300" y="2168">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="7" srcpinname="XYZ" dstnodeid="1" dstpinname="Input 4XYZ" linkstyle="Bezier">
+   <LINKPOINT x="4710" y="2160">
+   </LINKPOINT>
+   <LINKPOINT x="3510" y="2160">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Red" dstnodeid="3" dstpinname="X">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Green" dstnodeid="3" dstpinname="Y">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Blue" dstnodeid="3" dstpinname="Z">
+   </LINK>
+   <NODE id="11" systemname="IOBox (Color)" componentmode="InABox" nodename="IOBox (Color)">
+   <PIN pinname="Descriptive Name" slicecount="1" values="Ambient">
+   </PIN>
+   <BOUNDS type="Box" left="2160" top="290" width="750" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2160" top="290" width="750" height="240">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="11" srcpinname="Color Output" dstnodeid="2" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Red" dstnodeid="5" dstpinname="X">
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Green" dstnodeid="5" dstpinname="Y">
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Blue" dstnodeid="5" dstpinname="Z">
+   </LINK>
+   <NODE id="12" systemname="IOBox (Color)" componentmode="InABox" nodename="IOBox (Color)">
+   <PIN pinname="Descriptive Name" slicecount="1" values="Diffuse">
+   </PIN>
+   <BOUNDS type="Box" left="3465" top="275" width="750" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3465" top="275" width="750" height="240">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="12" srcpinname="Color Output" dstnodeid="4" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="6" srcpinname="Red" dstnodeid="7" dstpinname="X">
+   </LINK>
+   <LINK srcnodeid="6" srcpinname="Green" dstnodeid="7" dstpinname="Y">
+   </LINK>
+   <LINK srcnodeid="6" srcpinname="Blue" dstnodeid="7" dstpinname="Z">
+   </LINK>
+   <NODE id="13" systemname="IOBox (Color)" componentmode="InABox" nodename="IOBox (Color)">
+   <PIN pinname="Descriptive Name" slicecount="1" values="Specular">
+   </PIN>
+   <BOUNDS type="Box" left="4740" top="290" width="750" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4740" top="290" width="750" height="240">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="13" srcpinname="Color Output" dstnodeid="6" dstpinname="Input">
+   </LINK>
+   <BOUNDS type="Window" left="11250" top="7725" width="5445" height="5205">
+   </BOUNDS>
+   <PACK Name="dx11" Version="1.3.1">
+   </PACK>
+   <PACK Name="vvvv-Message" Version="2.9.6">
+   </PACK>
+   <PACK Name="VVVV.Packs" Version="0.2.0">
+   </PACK>
+   <PACK Name="ÎmagePack" Version="0.2.0">
+   </PACK>
+   <PACK Name="addonpack" Version="36.0.0">
+   </PACK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="14">
+   <BOUNDS type="Box" left="3750" top="2955" width="300" height="255">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3750" top="2955" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="48">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="14" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Strides">
+   </LINK>
+   </PATCH>

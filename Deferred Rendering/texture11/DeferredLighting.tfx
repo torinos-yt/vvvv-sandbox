@@ -1,0 +1,71 @@
+Texture2D coltex : PREVIOUS;
+Texture2D ntex<string uiname = "Normal Pass";>;
+Texture2D postex<string uiname = "Position Pass";>;
+Texture2D depthtex<string uiname = "Depth Pass";>;
+
+SamplerState linearSampler : IMMUTABLE
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Clamp;
+    AddressV = Clamp;
+};
+
+struct Light{
+	float3 pos;
+	float3 amb;
+	float3 diff;
+	float3 spec;
+};
+
+float3 campos;
+
+StructuredBuffer<Light> lights;
+
+struct psInput
+{
+	float4 p : SV_Position;
+	float2 uv : TEXCOORD0;
+};
+
+
+float4 PS(psInput input) : SV_Target
+{
+	float3 pos = float3(postex.Sample(linearSampler, input.uv).rg,
+						depthtex.Sample(linearSampler, input.uv).r);
+	float3 norm = ntex.Sample(linearSampler, input.uv).rgb;
+	float4 c = coltex.Sample(linearSampler,input.uv);
+	
+	float dis = length(lights[0].pos - pos);
+	float3 lighting = float3(0,0,0);
+	if(dis < 300){
+		float3 amb = c.rgb + lights[0].amb * .1;
+		float3 LightDir = normalize(lights[0].pos - pos);
+		float3 diff = pow(max(dot(norm, LightDir), 0), 2) * lights[0].diff;
+		
+		float3 vDir = normalize(campos - pos);
+		float3 halfDir = normalize(vDir + LightDir);
+		float spec = pow(max(dot(norm, halfDir), 0), 16.0);
+		float3 specular = lights[0].spec * spec;
+		
+		float atten = 1.0 + (.1 * dis) + (.01 * dis * dis);
+		
+		amb /= atten * 1.2;
+		diff /= atten;
+		specular /= atten;
+		lighting += amb + diff + specular;
+	}
+	
+	lighting *= c.a;
+	return float4(lighting, c.a);
+}
+
+technique10 PointLighting
+{
+	pass P0
+	{
+		SetPixelShader(CompileShader(ps_4_0,PS()));
+	}
+}
+
+
+
