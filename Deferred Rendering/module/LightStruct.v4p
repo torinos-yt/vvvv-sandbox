@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
-   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p" scrollx="495" scrolly="0" systemname="LightStruct" filename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p">
+   <PATCH nodename="C:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p" scrollx="495" scrolly="0" systemname="LightStruct" filename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p">
    <NODE systemname="DynamicBuffer (DX11.Buffer Custom)" filename="%VVVV%\packs\mp.dx\nodes\plugins\DX11Utils\x64\DX11Utils.dll" nodename="DynamicBuffer (DX11.Buffer Custom)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="2220" top="4995" width="100" height="100">
    </BOUNDS>
@@ -11,7 +11,7 @@
    </PIN>
    <PIN pinname="Buffer" visible="1">
    </PIN>
-   <PIN pinname="Apply" slicecount="1" values="0" visible="1">
+   <PIN pinname="Apply" slicecount="1" visible="1" values="0">
    </PIN>
    <PIN pinname="Element Count" visible="1">
    </PIN>
@@ -140,7 +140,7 @@
    </NODE>
    <LINK srcnodeid="12" srcpinname="Color Output" dstnodeid="4" dstpinname="Input">
    </LINK>
-   <BOUNDS type="Window" left="9735" top="7050" width="7455" height="6435">
+   <BOUNDS type="Window" left="6480" top="2796" width="7452" height="6432">
    </BOUNDS>
    <PACK Name="dx11" Version="1.3.1">
    </PACK>
@@ -366,14 +366,6 @@
    <PIN pinname="Filename" slicecount="1" values="D:\iryut\C4D\_texures\poliigon.com\FabricLeatherBlack001\FabricLeatherBlack001_COL_4K.jpg">
    </PIN>
    </NODE>
-   <NODE systemname="Count (3d)" filename="%VVVV%\lib\nodes\modules\3D\Count (3D).v4p" nodename="Count (3d)" componentmode="Hidden" id="30">
-   <BOUNDS type="Node" left="4470" top="3765" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Count" visible="1">
-   </PIN>
-   </NODE>
    <NODE systemname="Count (3d)" filename="%VVVV%\lib\nodes\modules\3D\Count (3D).v4p" nodename="Count (3d)" componentmode="Hidden" id="31">
    <BOUNDS type="Node" left="4785" top="4065" width="100" height="100">
    </BOUNDS>
@@ -382,18 +374,16 @@
    <PIN pinname="Count" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="3" srcpinname="XYZ" dstnodeid="30" dstpinname="Input">
-   </LINK>
    <LINK srcnodeid="5" srcpinname="XYZ" dstnodeid="31" dstpinname="Input">
    </LINK>
    <NODE systemname="Max (Value)" nodename="Max (Value)" componentmode="Hidden" id="32">
    <BOUNDS type="Node" left="4260" top="4455" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input Count" slicecount="1" values="3">
+   <PIN pinname="Input Count" slicecount="1" values="2">
    </PIN>
    <PIN pinname="Input 1" visible="1">
    </PIN>
-   <PIN pinname="Input 2" visible="1">
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="1">
    </PIN>
    <PIN pinname="Input 3" visible="1">
    </PIN>
@@ -402,12 +392,12 @@
    </NODE>
    <LINK srcnodeid="15" srcpinname="Count" dstnodeid="32" dstpinname="Input 1">
    </LINK>
-   <LINK srcnodeid="30" srcpinname="Count" dstnodeid="32" dstpinname="Input 2">
-   </LINK>
    <LINK srcnodeid="31" srcpinname="Count" dstnodeid="32" dstpinname="Input 3">
    </LINK>
    <LINK srcnodeid="32" srcpinname="Output" dstnodeid="16" dstpinname="Y Input Value">
    </LINK>
    <LINK srcnodeid="32" srcpinname="Output" dstnodeid="0" dstpinname="Element Count">
+   </LINK>
+   <LINK srcnodeid="31" srcpinname="Count" dstnodeid="32" dstpinname="Input 2">
    </LINK>
    </PATCH>

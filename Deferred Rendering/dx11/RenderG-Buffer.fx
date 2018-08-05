@@ -102,7 +102,7 @@ vs2pstnb VS_TNB(VS_INTNB input)
 PSout PS(vs2ps In)
 {
 	PSout gbuffer;
-    gbuffer.color = coltex.Sample(linearSampler, In.uv.xy);
+    gbuffer.color = float4(coltex.Sample(linearSampler, In.uv.xy).rgb, 1);
 	float3 norm = In.NormW;
 	gbuffer.normal = float4(normalize(norm), 1);
 	gbuffer.position = In.PosW;
@@ -128,7 +128,7 @@ PSout PS_TNB(vs2pstnb In)
 {
 	PSout gbuffer;
 	
-    gbuffer.color = coltex.Sample(linearSampler, In.uv.xy);
+    gbuffer.color = float4(coltex.Sample(linearSampler, In.uv.xy).rgb, 1);
 	float3 norm = In.NormW;
 	gbuffer.normal = float4(normalize(norm), 1);
 	gbuffer.position = In.PosW;
