@@ -27,9 +27,9 @@ uint num<string uiname = "Light Count";>;
 float Roughness<float uimin = 0.0; float uimax = 1.0;>;
 float4 Specular<bool color = true; float uimin = 0.0; float uimax = 1.0;>;
 
-float3 fresnelSchlick(float3 H, float3 V, float3 F0)
+float3 fresnelSchlick(float dotVH, float3 F0)
 {
-    return F0 + (1.0 - F0) * pow(1.0 - saturate(dot(V,H)), 5.0);
+    return F0 + (1.0 - F0) * pow(1.0 - dotVH, 5.0);
 }  
 
 float D_GGX(float facet, float dotNH) {
@@ -52,17 +52,17 @@ float GeometrySchlickGGX(float NdotV, float roughness)
 
 float GeometrySmith(float3 N, float3 V, float3 L, float roughness)
 {
-    float NdotV = max(dot(N, V), 0.0);
-    float NdotL = max(dot(N, L), 0.0);
-    float ggx2  = GeometrySchlickGGX(NdotV, roughness);
-    float ggx1  = GeometrySchlickGGX(NdotL, roughness);
+    float dotNV = max(dot(N, V), 0.0);
+    float dotNL = max(dot(N, L), 0.0);
+    float ggx2  = GeometrySchlickGGX(dotNV, roughness);
+    float ggx1  = GeometrySchlickGGX(dotNL, roughness);
     
     return ggx1 * ggx2;
 }
 
 float3 CookTorrance(float3 V, float3 L, float3 N, float3 H, float roughness, 
 					float3 diff, float3 ambient,float3 ldiff, float3 spec){
-	float3 f = fresnelSchlick(H, V, spec);
+	float3 f = fresnelSchlick(dot(V, H), spec);
     float d = D_GGX(roughness, dot(N, H));
     float t = 2.0 * dot(H, N) / dot(V, H);
     float g = GeometrySmith(N, V, L, roughness);
