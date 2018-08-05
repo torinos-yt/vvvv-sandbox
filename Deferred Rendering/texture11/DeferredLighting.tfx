@@ -1,7 +1,9 @@
-Texture2D coltex : PREVIOUS;
+Texture2D albtex : PREVIOUS;
 Texture2D ntex<string uiname = "Normal Pass";>;
 Texture2D postex<string uiname = "Position Pass";>;
 Texture2D depthtex<string uiname = "Depth Pass";>;
+
+#define PI 3.14159265359
 
 SamplerState linearSampler : IMMUTABLE
 {
@@ -14,13 +16,62 @@ struct Light{
 	float3 pos;
 	float3 amb;
 	float3 diff;
-	float3 spec;
 };
 
 float3 campos;
 
 StructuredBuffer<Light> lights;
-float4x4 View;
+uint num<string uiname = "Light Count";>;
+
+
+float Roughness<float uimin = 0.0; float uimax = 1.0;>;
+float4 Specular<bool color = true; float uimin = 0.0; float uimax = 1.0;>;
+
+float3 fresnelSchlick(float3 H, float3 V, float3 F0)
+{
+    return F0 + (1.0 - F0) * pow(1.0 - saturate(dot(V,H)), 5.0);
+}  
+
+float D_GGX(float facet, float dotNH) {
+  float facet2 = facet*facet;
+  float dotNH2 = dotNH*dotNH;
+  float d = dotNH2 * (facet2 - 1.0) + 1.0;
+  return facet2 / (PI * d * d);
+}
+
+float GeometrySchlickGGX(float NdotV, float roughness)
+{
+    float r = (roughness + 1.0);
+    float k = (r*r) / 8.0;
+
+    float nom   = NdotV;
+    float denom = NdotV * (1.0 - k) + k;
+    
+    return nom / denom;
+}
+
+float GeometrySmith(float3 N, float3 V, float3 L, float roughness)
+{
+    float NdotV = max(dot(N, V), 0.0);
+    float NdotL = max(dot(N, L), 0.0);
+    float ggx2  = GeometrySchlickGGX(NdotV, roughness);
+    float ggx1  = GeometrySchlickGGX(NdotL, roughness);
+    
+    return ggx1 * ggx2;
+}
+
+float3 CookTorrance(float3 V, float3 L, float3 N, float3 H, float roughness, 
+					float3 diff, float3 ambient,float3 ldiff, float3 spec){
+	float3 f = fresnelSchlick(H, V, spec);
+    float d = D_GGX(roughness, dot(N, H));
+    float t = 2.0 * dot(H, N) / dot(V, H);
+    float g = GeometrySmith(N, V, L, roughness);
+    float m = 3.14159265 * dot(V, N) * dot(L, N);
+    float3 spe = max(f * d * g / m, 0.0);
+    float3 dif = max(dot(L, N), 0.0) * diff;
+ 
+    return spe * ldiff + dif + ambient;
+}
 
 struct psInput
 {
@@ -33,31 +84,22 @@ float4 PS(psInput input) : SV_Target
 {
 	float3 pos = float3(postex.Sample(linearSampler, input.uv).rg,
 						depthtex.Sample(linearSampler, input.uv).r);
-	float3 norm = mul(ntex.Sample(linearSampler, input.uv).rgb, (float3x3)View);
-	float4 c = coltex.Sample(linearSampler,input.uv);
+	float3 N = ntex.Sample(linearSampler, input.uv).rgb;
+	float4 albedo = albtex.Sample(linearSampler,input.uv);
 	
-	float dis = length(lights[0].pos - pos);
 	float3 lighting = float3(0,0,0);
-	if(dis < 300){
-		float3 amb = c.rgb + lights[0].amb * .1;
-		float3 LightDir = normalize(lights[0].pos - pos);
-		float3 diff = pow(max(dot(norm, LightDir), 0), 2) * lights[0].diff;
+	for(uint i = 0; i < num; i++){
+		float4 alb = albedo * float4(lights[i].diff, 1);
+		float3 L = normalize(lights[i].pos - pos);
+		float3 V = normalize(campos - pos);
+		float3 H = normalize(V + L);
+	
+		lighting += CookTorrance(V, L, N, H, Roughness, alb.xyz, lights[i].amb, lights[i].diff, Specular.xyz);
+		lighting *= albedo.a;
 		
-		float3 vDir = normalize(campos - pos);
-		float3 halfDir = normalize(vDir + LightDir);
-		float spec = pow(max(dot(norm, halfDir), 0), 16.0);
-		float3 specular = lights[0].spec * spec;
-		
-		float atten = 1.0 + (.1 * dis) + (.01 * dis * dis);
-		
-		amb /= atten * 1.2;
-		diff /= atten;
-		specular /= atten;
-		lighting += amb + diff + specular;
 	}
 	
-	lighting *= c.a;
-	return float4(lighting, c.a);
+	return float4(lighting, albedo.a);
 }
 
 technique10 PointLighting

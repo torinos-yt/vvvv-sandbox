@@ -33,6 +33,8 @@
    </PIN>
    <PIN pinname="texW" visible="1" slicecount="1" values="||">
    </PIN>
+   <PIN pinname="BumpMap Strength" visible="1">
+   </PIN>
    </NODE>
    <NODE systemname="Renderer (DX11 MRT)" filename="%VVVV%\packs\dx11\nodes\plugins\base\VVVV.DX11.Nodes.dll" nodename="Renderer (DX11 MRT)" componentmode="InAWindow" id="2">
    <BOUNDS type="Node" left="4215" top="6105" width="100" height="100">
@@ -281,7 +283,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="8790" top="5820" width="3390" height="1125">
    </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="|Tex0 : color Tex&cr;&lf;Tex1 : Normal Tex&cr;&lf;Tex2 : Position Tex&cr;&lf;Tex3 : xy:PosScreen zw:Velocity|">
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|Tex0 : color Tex&cr;&lf;Tex1 : WorldNormal Tex&cr;&lf;Tex2 : WorldPosition Tex&cr;&lf;Tex3 : xy:PosScreen zw:Velocity|">
    </PIN>
    <PIN pinname="Output String" visible="0">
    </PIN>
@@ -325,7 +327,7 @@
    </BOUNDS>
    <PIN pinname="Output Count" slicecount="1" values="3">
    </PIN>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Output 1" visible="1">
    </PIN>
@@ -343,7 +345,7 @@
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" values="Color">
    </PIN>
-   <PIN pinname="Input Node" visible="1">
+   <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="39">
@@ -353,7 +355,7 @@
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" values="Normals">
    </PIN>
-   <PIN pinname="Input Node" visible="1">
+   <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="40">
@@ -363,7 +365,7 @@
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" values="Position">
    </PIN>
-   <PIN pinname="Input Node" visible="1">
+   <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="41">
@@ -373,7 +375,7 @@
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" values="PScvel">
    </PIN>
-   <PIN pinname="Input Node" visible="1">
+   <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="42">
@@ -412,52 +414,6 @@
    </NODE>
    <LINK srcnodeid="43" srcpinname="Output Node" dstnodeid="0" dstpinname="Bump Texture">
    </LINK>
-   <NODE systemname="SplitGBuffer" filename="SplitGBuffer.v4p" nodename="SplitGBuffer.v4p" componentmode="Hidden" id="46">
-   <BOUNDS type="Node" left="4575" top="6795" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Window" left="2190" top="7815" width="9000" height="6000">
-   </BOUNDS>
-   <PIN pinname="GBuffer" visible="1">
-   </PIN>
-   <PIN pinname="Color" visible="1">
-   </PIN>
-   <PIN pinname="Normals" visible="1">
-   </PIN>
-   <PIN pinname="Position" visible="1">
-   </PIN>
-   <PIN pinname="PScvel" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="2" srcpinname="Buffers" dstnodeid="46" dstpinname="GBuffer">
-   </LINK>
-   <LINK srcnodeid="46" srcpinname="Color" dstnodeid="38" dstpinname="Input Node">
-   </LINK>
-   <LINK srcnodeid="46" srcpinname="Normals" dstnodeid="39" dstpinname="Input Node">
-   </LINK>
-   <LINK srcnodeid="46" srcpinname="Position" dstnodeid="40" dstpinname="Input Node">
-   </LINK>
-   <LINK srcnodeid="46" srcpinname="PScvel" dstnodeid="41" dstpinname="Input Node">
-   </LINK>
-   <NODE systemname="CamTransfromPool" filename="CamTransfromPool.v4p" nodename="CamTransfromPool.v4p" componentmode="Hidden" id="47">
-   <BOUNDS type="Node" left="6894" top="2109" width="0" height="0">
-   </BOUNDS>
-   <BOUNDS type="Box" left="4677" top="135" width="4435" height="6580">
-   </BOUNDS>
-   <BOUNDS type="Window" left="-1" top="-1" width="4435" height="6580">
-   </BOUNDS>
-   </NODE>
-   <LINK srcnodeid="47" srcpinname="Output 1" dstnodeid="36" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="7" srcpinname="Output Node" dstnodeid="47" dstpinname="Input 1 - Transform In 1">
-   </LINK>
-   <LINK srcnodeid="15" srcpinname="Y Output Value" dstnodeid="47" dstpinname="XY">
-   </LINK>
-   <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="47" dstpinname="Switch">
-   </LINK>
-   <LINK srcnodeid="47" srcpinname="Output" dstnodeid="2" dstpinname="Aspect Ratio">
-   </LINK>
-   <LINK srcnodeid="8" srcpinname="Output Node" dstnodeid="47" dstpinname="Transform In 1">
-   </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="48">
    <BOUNDS type="Box" left="8985" top="465" width="1590" height="270">
    </BOUNDS>
@@ -494,4 +450,66 @@
    <BOUNDS type="Box" left="10200" top="3360" width="3000" height="3000">
    </BOUNDS>
    </NODE>
+   <NODE systemname="SplitGBuffer" filename="SplitGBuffer.v4p" nodename="SplitGBuffer" componentmode="Hidden" id="46">
+   <BOUNDS type="Node" left="4575" top="6795" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Window" left="2190" top="7815" width="9000" height="6000">
+   </BOUNDS>
+   <PIN pinname="GBuffer" visible="1">
+   </PIN>
+   <PIN pinname="Color" visible="1">
+   </PIN>
+   <PIN pinname="Normals" visible="1">
+   </PIN>
+   <PIN pinname="Position" visible="1">
+   </PIN>
+   <PIN pinname="PScvel" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="2" srcpinname="Buffers" dstnodeid="46" dstpinname="GBuffer">
+   </LINK>
+   <LINK srcnodeid="46" srcpinname="Color" dstnodeid="38" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="46" srcpinname="Normals" dstnodeid="39" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="46" srcpinname="Position" dstnodeid="40" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="46" srcpinname="PScvel" dstnodeid="41" dstpinname="Input Node">
+   </LINK>
+   <NODE systemname="CamTransfromPool" filename="CamTransfromPool.v4p" nodename="CamTransfromPool" componentmode="Hidden" id="47">
+   <BOUNDS type="Node" left="6894" top="2109" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4677" top="135" width="4435" height="6580">
+   </BOUNDS>
+   <BOUNDS type="Window" left="-1" top="-1" width="4435" height="6580">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="47" srcpinname="Output 1" dstnodeid="36" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="7" srcpinname="Output Node" dstnodeid="47" dstpinname="Input 1 - Transform In 1">
+   </LINK>
+   <LINK srcnodeid="15" srcpinname="Y Output Value" dstnodeid="47" dstpinname="XY">
+   </LINK>
+   <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="47" dstpinname="Switch">
+   </LINK>
+   <LINK srcnodeid="47" srcpinname="Output" dstnodeid="2" dstpinname="Aspect Ratio">
+   </LINK>
+   <LINK srcnodeid="8" srcpinname="Output Node" dstnodeid="47" dstpinname="Transform In 1">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="51">
+   <BOUNDS type="Box" left="9600" top="990" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="9600" top="990" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|BumpMap Strength|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="51" srcpinname="Y Output Value" dstnodeid="0" dstpinname="BumpMap Strength">
+   </LINK>
    </PATCH>
