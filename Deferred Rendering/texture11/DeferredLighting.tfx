@@ -20,6 +20,7 @@ struct Light{
 float3 campos;
 
 StructuredBuffer<Light> lights;
+float4x4 View;
 
 struct psInput
 {
@@ -32,7 +33,7 @@ float4 PS(psInput input) : SV_Target
 {
 	float3 pos = float3(postex.Sample(linearSampler, input.uv).rg,
 						depthtex.Sample(linearSampler, input.uv).r);
-	float3 norm = ntex.Sample(linearSampler, input.uv).rgb;
+	float3 norm = mul(ntex.Sample(linearSampler, input.uv).rgb, (float3x3)View);
 	float4 c = coltex.Sample(linearSampler,input.uv);
 	
 	float dis = length(lights[0].pos - pos);

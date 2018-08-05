@@ -50,8 +50,7 @@ struct vs2ps
 	float4 velocity : TEXCOORD2;
     float4 uv: TEXCOORD0;
 	float3 tangent : TEXCOORD3;
-	float3 NormV : NORMAL0;
-	float3 NormW : NORMAL1;
+	float3 NormW : NORMAL;
 };
 
 struct vs2pstnb
@@ -60,8 +59,7 @@ struct vs2pstnb
 	float4 PosW : TEXCOORD1;
 	float4 velocity : TEXCOORD2;
     float4 uv: TEXCOORD0;
-	float3 NormV : NORMAL0;
-	float3 NormW : NORMAL1;
+	float3 NormW : NORMAL;
 };
 
 struct PSout{
@@ -81,7 +79,6 @@ vs2ps VS(VS_IN input)
 	output.velocity = velocity;
     output.uv = mul(input.TexCd, texW);;
 	output.NormW = normalize(mul(input.Norm, (float3x3)tWIT));
-	output.NormV = normalize(mul(mul(input.Norm, (float3x3)tWIT),(float3x3)tV).xyz);
 	output.tangent = normalize(mul(input.tangent, (float3x3)tW).xyz);
     return output;
 }
@@ -96,7 +93,6 @@ vs2pstnb VS_TNB(VS_INTNB input)
 	output.velocity = velocity;
     output.uv = mul(input.TexCd, texW);
 	output.NormW = normalize(mul(input.Norm, (float3x3)tWIT));
-	output.NormV = normalize(mul(mul(input.Norm, (float3x3)tWIT),(float3x3)tV).xyz);
     return output;
 }
 
@@ -107,7 +103,8 @@ PSout PS(vs2ps In)
 {
 	PSout gbuffer;
     gbuffer.color = coltex.Sample(linearSampler, In.uv.xy);
-	gbuffer.normal = float4(In.NormV, 1);
+	float3 norm = In.NormW;
+	gbuffer.normal = float4(normalize(norm), 1);
 	gbuffer.position = In.PosW;
 	float4 posV = mul(In.PosW, tVP);
 	float4 vel = mul(In.velocity, ptVP);
@@ -122,7 +119,7 @@ PSout PS(vs2ps In)
 		float3 bnormal = normalize(cross(In.NormW, In.tangent));
 		float3 nmap = BumpTex.Sample(linearSampler, In.uv.xy).xyz;
 		nmap = nmap * 2.0 - 1.0;
-		gbuffer.normal = float4(normalize(In.NormV + (nmap.x * In.tangent + nmap.y * bnormal) * bumps), 1);
+		gbuffer.normal = float4(normalize(norm + (nmap.x * In.tangent + nmap.y * bnormal) * bumps), 1);
 	}
     return gbuffer;
 }
@@ -132,7 +129,8 @@ PSout PS_TNB(vs2pstnb In)
 	PSout gbuffer;
 	
     gbuffer.color = coltex.Sample(linearSampler, In.uv.xy);
-	gbuffer.normal = float4(normalize(In.NormV), 1);
+	float3 norm = In.NormW;
+	gbuffer.normal = float4(normalize(norm), 1);
 	gbuffer.position = In.PosW;
 	float4 posV = mul(In.PosW, tVP);
 	float4 vel = mul(In.velocity, ptVP);
@@ -164,7 +162,7 @@ PSout PS_TNB(vs2pstnb In)
 		
 		float3 nmap = BumpTex.Sample(linearSampler, In.uv.xy).xyz;
 		nmap = nmap * 2.0 - 1.0;
-		gbuffer.normal = float4(normalize(In.NormV + (nmap.x * t + nmap.y * b) * bumps), 1);
+		gbuffer.normal = float4(normalize(norm + (nmap.x * t + nmap.y * b) * bumps), 1);
 	}
     return gbuffer;
 }

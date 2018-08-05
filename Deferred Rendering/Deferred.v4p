@@ -159,7 +159,7 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="LAmb">
    </PIN>
-   <PIN pinname="Color Input" slicecount="1" values="|0.75445,0.65878,0.72812,1.00000|">
+   <PIN pinname="Color Input" slicecount="1" values="|0.20201,0.17694,0.19890,1.00000|">
    </PIN>
    </NODE>
    <NODE systemname="IOBox (Color)" nodename="IOBox (Color)" componentmode="InABox" id="42">
@@ -171,7 +171,7 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="LDiff">
    </PIN>
-   <PIN pinname="Color Input" slicecount="1" values="|0.54625,0.54701,0.54540,1.00000|">
+   <PIN pinname="Color Input" slicecount="1" values="|0.46118,0.46177,0.46042,1.00000|">
    </PIN>
    </NODE>
    <NODE systemname="IOBox (Color)" nodename="IOBox (Color)" componentmode="InABox" id="47">
@@ -183,7 +183,7 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="LSpec">
    </PIN>
-   <PIN pinname="Color Input" slicecount="1" values="|0.97780,0.97780,0.97780,1.00000|">
+   <PIN pinname="Color Input" slicecount="1" values="|0.84244,0.84244,0.84244,1.00000|">
    </PIN>
    </NODE>
    <NODE systemname="Preview (DX11.Texture)" filename="%VVVV%\packs\dx11\nodes\plugins\base\VVVV.DX11.Nodes.dll" nodename="Preview (DX11.Texture)" componentmode="InAWindow" id="50" border="1" stayontop="1">
@@ -191,7 +191,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="5910" top="12810" width="6000" height="4500">
    </BOUNDS>
-   <BOUNDS type="Window" left="12915" top="2430" width="8565" height="8130">
+   <BOUNDS type="Window" left="16440" top="2700" width="8565" height="8130">
    </BOUNDS>
    <PIN pinname="Texture In" visible="1">
    </PIN>
@@ -393,7 +393,7 @@
    </PIN>
    <PIN pinname="Transform Out" visible="1">
    </PIN>
-   <PIN pinname="XYZ" visible="1">
+   <PIN pinname="XYZ" visible="1" slicecount="60" values="0.109686746695291,0.186109835003064,-0.323108232689324,0.464476577426148,0.0636696154049225,-0.0756953019395951,0.376650440440699,-0.437669577217687,-0.0936863670515744,0.240010558454976,0.199158242006537,1.11885117235012,-0.0792966467011636,0.00423668180169789,0.182582682993377,0.618283087001701,-0.0883703139495548,-0.170666196695368,0.113771050015855,-1.00190613496846,-0.494968140064691,-0.28413206260287,-0.390024932351701,-0.514621402176647,-0.0266801682231491,0.32780068946363,-0.641923869985708,-0.186078699797577,0.735209716285495,0.0922126588647842,-0.574656475146387,0.390820639824122,-0.254721722024857,-0.575048914720288,-0.396090531127607,0.341033127778355,0.0661893025255427,-0.206881339648188,-0.178176669344028,-0.251406702954481,0.742318188545513,-0.166862093154214,0.0990839384772108,-0.126606062938198,0.0805592469952576,0.60648011132185,0.271233719722609,0.0362380777917162,0.313147097066105,-1.20225073989199,-0.55347231799206,0.0550767800954004,-0.038266010305071,-0.426406493992983,-0.441070616183724,-0.0858979540164968,-0.0285118874702815,-0.162552660435534,-1.05531211161375,-0.119294784106762">
    </PIN>
    </NODE>
    <LINK srcnodeid="74" srcpinname="Position Out" dstnodeid="73" dstpinname="Y">
@@ -401,8 +401,6 @@
    <LINK srcnodeid="67" srcpinname="Transform Out" dstnodeid="73" dstpinname="Transform In">
    </LINK>
    <LINK srcnodeid="73" srcpinname="Transform Out" dstnodeid="0" dstpinname="Transform In">
-   </LINK>
-   <LINK srcnodeid="74" srcpinname="Position Out" dstnodeid="73" dstpinname="XYZ">
    </LINK>
    <NODE systemname="BlendBasic (DX11.TextureFX)" filename="%VVVV%\packs\dx11\nodes\texture11\Mixer\BlendBasic.tfx" nodename="BlendBasic (DX11.TextureFX)" componentmode="Hidden" id="76">
    <BOUNDS type="Node" left="6705" top="5730" width="100" height="100">
@@ -666,8 +664,6 @@
    </LINK>
    <LINK srcnodeid="103" srcpinname="Texture Out" dstnodeid="0" dstpinname="Bump Texture">
    </LINK>
-   <LINK srcnodeid="55" srcpinname="Texture Out" dstnodeid="70" dstpinname="Texture In">
-   </LINK>
    <NODE systemname="HBAO+ (DX11)" filename="%VVVV%\packs\HBAOPlus\nodes\plugins\HBAOPlus-vvvv.dll" nodename="HBAO+ (DX11)" componentmode="Hidden" id="64">
    <BOUNDS type="Node" left="6585" top="10020" width="100" height="100">
    </BOUNDS>
@@ -725,5 +721,45 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="108" srcpinname="Y Output Value" dstnodeid="0" dstpinname="BumpMap Strength">
+   </LINK>
+   <NODE systemname="SSR (DX11.TextureFX)" filename="..\..\..\contributions\modules\SSR\SSR (DX11.TextureFX).v4p" nodename="SSR (DX11.TextureFX)" componentmode="Hidden" id="109">
+   <BOUNDS type="Node" left="5925" top="11880" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Texture In" visible="1">
+   </PIN>
+   <PIN pinname="Texture Out" visible="1">
+   </PIN>
+   <PIN pinname="Normal Tex" visible="1">
+   </PIN>
+   <PIN pinname="Depth Tex" visible="1">
+   </PIN>
+   <PIN pinname="View" visible="1">
+   </PIN>
+   <PIN pinname="Projection" visible="1">
+   </PIN>
+   <PIN pinname="ReflectionFade" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Blur Width" slicecount="1" values="0.09">
+   </PIN>
+   <PIN pinname="IsJitter" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Thickness" slicecount="1" values="0.0128">
+   </PIN>
+   <PIN pinname="rayLengthCoeff" slicecount="1" values="0.0168">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="55" srcpinname="Texture Out" dstnodeid="109" dstpinname="Texture In">
+   </LINK>
+   <LINK srcnodeid="109" srcpinname="Texture Out" dstnodeid="70" dstpinname="Texture In">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Normals" dstnodeid="109" dstpinname="Normal Tex">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Depth Buffer" dstnodeid="109" dstpinname="Depth Tex">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="View" dstnodeid="109" dstpinname="View">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Projection" dstnodeid="109" dstpinname="Projection">
+   </LINK>
+   <LINK srcnodeid="74" srcpinname="Position Out" dstnodeid="73" dstpinname="XYZ">
    </LINK>
    </PATCH>

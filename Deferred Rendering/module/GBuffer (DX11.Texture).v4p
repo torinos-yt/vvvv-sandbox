@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
-   <PATCH nodename="F:\vvvv\contributions\modules\GBuffer (DX11.Texture).v4p" systemname="GBuffer (DX11.Texture)" filename="F:\vvvv\contributions\modules\GBuffer (DX11.Texture).v4p" scrollx="0" scrolly="0">
+   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\module\GBuffer (DX11.Texture).v4p" systemname="GBuffer (DX11.Texture)" filename="F:\vvvv\contributions\modules\GBuffer (DX11.Texture).v4p" scrollx="0" scrolly="0">
    <NODE systemname="RenderG-Buffer (DX11.Effect)" filename="..\dx11\RenderG-Buffer.fx" nodename="RenderG-Buffer (DX11.Effect)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="4425" top="3720" width="3945" height="270">
    </BOUNDS>
@@ -29,7 +29,7 @@
    </PIN>
    <PIN pinname="Bumpiness" visible="1">
    </PIN>
-   <PIN pinname="Technique" slicecount="1" values="GBuffer" visible="1">
+   <PIN pinname="Technique" slicecount="1" visible="1" values="GBuffer">
    </PIN>
    <PIN pinname="texW" visible="1" slicecount="1" values="||">
    </PIN>
@@ -168,7 +168,7 @@
    </NODE>
    <LINK srcnodeid="12" srcpinname="Output Node" dstnodeid="0" dstpinname="Texture">
    </LINK>
-   <BOUNDS type="Window" left="7920" top="3720" width="13530" height="9150">
+   <BOUNDS type="Window" left="825" top="540" width="13530" height="9150">
    </BOUNDS>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="13" systemname="IOBox (Node)">
    <BOUNDS type="Box" left="7065" top="8025" width="795" height="240">
@@ -411,22 +411,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="43" srcpinname="Output Node" dstnodeid="0" dstpinname="Bump Texture">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="45">
-   <BOUNDS type="Box" left="9375" top="1830" width="795" height="240">
-   </BOUNDS>
-   <BOUNDS type="Node" left="9375" top="1830" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
-   </PIN>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Bumpiness">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="45" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Bumpiness">
    </LINK>
    <NODE systemname="SplitGBuffer" filename="SplitGBuffer.v4p" nodename="SplitGBuffer.v4p" componentmode="Hidden" id="46">
    <BOUNDS type="Node" left="4575" top="6795" width="100" height="100">
