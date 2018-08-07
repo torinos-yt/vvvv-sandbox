@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
-   <PATCH nodename="F:\vvvv\contributions\modules\SplitGBuffer (DX11.Texture).v4p" systemname="SplitGBuffer (DX11.Texture)" filename="F:\vvvv\contributions\modules\SplitGBuffer (DX11.Texture).v4p" scrollx="0" scrolly="1260">
-   <BOUNDS type="Window" left="2940" top="7365" width="9000" height="6000">
+   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\module\SplitGBuffer.v4p" systemname="SplitGBuffer (DX11.Texture)" filename="F:\vvvv\contributions\modules\SplitGBuffer (DX11.Texture).v4p" scrollx="0" scrolly="0">
+   <BOUNDS type="Window" left="2865" top="7080" width="9000" height="6000">
    </BOUNDS>
    <NODE systemname="Unzip (Value)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Unzip (Value)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="1995" top="990" width="100" height="100">
@@ -117,7 +117,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="1710" top="4380" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Position">
+   <PIN pinname="Descriptive Name" slicecount="1" values="SpecRough">
    </PIN>
    </NODE>
    <LINK srcnodeid="5" srcpinname="Output Node" dstnodeid="13" dstpinname="Input Node">
@@ -127,7 +127,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="2070" top="4980" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Descriptive Name" slicecount="1" values="PScvel">
+   <PIN pinname="Descriptive Name" slicecount="1" values="Position">
    </PIN>
    <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
    </PIN>
@@ -144,4 +144,32 @@
    </PACK>
    <PACK Name="ÎmagePack" Version="0.2.0">
    </PACK>
+   <NODE systemname="GetSlice (Node)" nodename="GetSlice (Node)" componentmode="Hidden" id="18">
+   <BOUNDS type="Node" left="2655" top="3345" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Index" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Output Node" visible="1">
+   </PIN>
+   <PIN pinname="Bin Size" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Input Node" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="17" systemname="IOBox (Node)">
+   <BOUNDS type="Box" left="2655" top="5355" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2655" top="5355" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" slicecount="1" values="PSvel">
+   </PIN>
+   <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="18" srcpinname="Output Node" dstnodeid="17" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Output 5" dstnodeid="18" dstpinname="Index">
+   </LINK>
+   <LINK srcnodeid="3" srcpinname="Output Node" dstnodeid="18" dstpinname="Input Node">
+   </LINK>
    </PATCH>

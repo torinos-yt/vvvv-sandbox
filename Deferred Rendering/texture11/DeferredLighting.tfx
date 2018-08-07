@@ -1,6 +1,8 @@
 Texture2D albtex : PREVIOUS;
 Texture2D ntex<string uiname = "Normal Pass";>;
 Texture2D postex<string uiname = "Position Pass";>;
+Texture2D specroug<string uiname = "SpecRough Map";>;
+Texture2DArray shadowmap<string uiname = "Shadow Map";>;
 Texture2D brdfLUT;
 TextureCube EnvMap<string uiname = "Environment Map";>;
 
@@ -8,6 +10,8 @@ TextureCube EnvMap<string uiname = "Environment Map";>;
 #ifndef NUMSAMPLE
 #define NUMSAMPLE 128
 #endif
+
+#define minVariance 0.0
 
 
 
@@ -18,11 +22,24 @@ SamplerState linearSampler : IMMUTABLE
     AddressV = Clamp;
 };
 
+SamplerState shadowSampler : immutable
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = BORDER;
+    AddressV = BORDER;
+	AddressW = BORDER;
+	BorderColor = float4(1,1,1,0);
+
+};
+
 struct Light{
 	float3 pos;
 	float3 amb;
 	float3 diff;
 };
+
+StructuredBuffer<float4x4> LightVP;
+float LightBleedingLimit = .9;
 
 float3 campos;
 
@@ -32,8 +49,31 @@ uint num<string uiname = "Light Count";>;
 float iblint<string uiname = "IBL intensity"; float uimin = 0.0;> = 1;
 bool EmvLod = 1;
 
-float Roughness<float uimin = 0.0; float uimax = 1.0;>;
-float4 Specular<bool color = true; float uimin = 0.0; float uimax = 1.0;>;
+float linstep(float mini, float maxi, float v){
+	return clamp((v - mini) / (maxi - mini), 0, 1);
+}
+
+float ReduceLightBleeding(float p_max, float Amount){
+	return linstep(Amount, 1, p_max);
+}
+
+float ChebyshevUpperBound(float2 Moments, float t, float LightBleedingLimit){
+	float p = (t <= Moments.x);
+	
+	float Variance = Moments.y - (Moments.x * Moments.x);
+	Variance = max(Variance, minVariance);
+	
+	float d = t - Moments.x;
+	float p_max = Variance / (Variance + d * d);
+	p_max = ReduceLightBleeding(p_max, LightBleedingLimit);
+	
+	return max(p, p_max);
+}
+
+float ShadowContribution(float3 LightCd, float LightDist, int i, float LightBleedingLimit){
+	float2 Moments = shadowmap.SampleLevel(shadowSampler, float3(LightCd.xy, i), 0).xy;
+	return ChebyshevUpperBound(Moments, LightDist, LightBleedingLimit);
+}
 
 float3 fresnelSchlick(float dotVH, float3 F0)
 {
@@ -69,7 +109,7 @@ float GeometrySmith(float3 N, float3 V, float3 L, float roughness)
 }
 
 float3 CookTorrance(float3 V, float3 L, float3 N, float3 H, float roughness, 
-					float3 diff, float3 ambient,float3 ldiff, float3 spec){
+					float3 diff, float3 ambient,float3 ldiff, float shadow, float3 spec){
 	float3 f = fresnelSchlick(saturate(dot(V, H)), spec);
     float d = D_GGX(roughness, saturate(dot(N, H)));
     float t = 2.0 * saturate(dot(H, N)) / saturate(dot(V, H));
@@ -78,7 +118,7 @@ float3 CookTorrance(float3 V, float3 L, float3 N, float3 H, float roughness,
     float3 spe = max(f * d * g / m, 0.0);
     float3 dif = max(saturate(dot(L, N)), 0.0) * diff;
  
-    return spe * ldiff + dif + ambient;
+    return (spe * ldiff+ diff + ambient) * (shadow + ambient) ;
 }
 
 
@@ -162,18 +202,30 @@ float4 PS(psInput input) : SV_Target
 	float3 N = ntex.Sample(linearSampler, input.uv).rgb;
 	float3 V = normalize(campos - pos);
 	float4 albedo = albtex.Sample(linearSampler,input.uv);
+	float3 Specular = specroug.Sample(linearSampler, input.uv).rgb;
+	float Roughness = specroug.Sample(linearSampler, input.uv).a;
 	
 	float3 lighting = float3(0,0,0);
 	for(uint i = 0; i < num; i++){
 		float4 alb = albedo * float4(lights[i].diff, 1);
 		float3 L = normalize(lights[i].pos - pos);
 		float3 H = normalize(V + L);
+		
+		//LightCoord
+		float LightDist = length(lights[i].pos - pos);
+		float4 Vpos = mul(float4(pos, 1), LightVP[i]);
+		float3 LightCd = 0;
+		LightCd.x =  Vpos.x / Vpos.w / 2.0f + 0.5f;
+		LightCd.y = -Vpos.y / Vpos.w / 2.0f + 0.5f;	
+		LightCd.z =  Vpos.z / Vpos.w / 2.0f + 0.5f;
+		
+		float shadow = ShadowContribution(LightCd, LightDist, i, LightBleedingLimit);
 	
-		lighting += CookTorrance(V, L, N, H, Roughness, alb.xyz, lights[i].amb, lights[i].diff, Specular.xyz);
+		lighting += CookTorrance(V, L, N, H, Roughness, alb.xyz, lights[i].amb, lights[i].diff, shadow, Specular);
 		
 	}
 	
-	lighting += ApproximateSpecularIBL(Specular.xyz, Roughness, N, V) * (albedo.xyz + .2) * iblint;
+	lighting += ApproximateSpecularIBL(Specular, Roughness, N, V) * (albedo.xyz + .2) * iblint;
 	lighting *= albedo.a;
 	
 	return float4(lighting, 1);
@@ -181,7 +233,7 @@ float4 PS(psInput input) : SV_Target
 
 technique10 PointLighting
 {
-	pass P0
+	pass P0 
 	{
 		SetPixelShader(CompileShader(ps_4_0,PS()));
 	}

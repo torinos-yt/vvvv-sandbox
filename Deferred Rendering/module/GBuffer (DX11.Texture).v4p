@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
-   <PATCH nodename="C:\vvvv\work\sandbox\Deferred Rendering\module\GBuffer (DX11.Texture).v4p" systemname="GBuffer (DX11.Texture)" filename="F:\vvvv\contributions\modules\GBuffer (DX11.Texture).v4p" scrollx="0" scrolly="0">
+   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\module\GBuffer (DX11.Texture).v4p" systemname="GBuffer (DX11.Texture)" filename="F:\vvvv\contributions\modules\GBuffer (DX11.Texture).v4p" scrollx="0" scrolly="0">
    <NODE systemname="RenderG-Buffer (DX11.Effect)" filename="..\dx11\RenderG-Buffer.fx" nodename="RenderG-Buffer (DX11.Effect)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="4425" top="3720" width="3945" height="270">
    </BOUNDS>
@@ -34,6 +34,14 @@
    <PIN pinname="texW" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="BumpMap Strength" visible="1">
+   </PIN>
+   <PIN pinname="spectex" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="roughtex" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Roughness Map" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Specular Map" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
    <NODE systemname="Renderer (DX11 MRT)" filename="%VVVV%\packs\dx11\nodes\plugins\base\VVVV.DX11.Nodes.dll" nodename="Renderer (DX11 MRT)" componentmode="InAWindow" id="2">
@@ -85,7 +93,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="2970" top="3840" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="4">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="5">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -99,7 +107,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="3510" top="1545" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="4" visible="1" values="R8G8B8A8_UNorm,R16G16B16A16_Float,R16G16B16A16_Float,R16G16B16A16_Float">
+   <PIN pinname="Input Enum" slicecount="5" visible="1" values="R8G8B8A8_UNorm,R16G16B16A16_Float,R8G8B8A8_UNorm,R16G16B16A16_Float,R16G16B16A16_Float">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="R32G32B32A32_Float">
    </PIN>
@@ -107,7 +115,7 @@
    </PIN>
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
-   <PIN pinname="Rows" slicecount="1" values="4">
+   <PIN pinname="Rows" slicecount="1" values="5">
    </PIN>
    <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
    </PIN>
@@ -119,9 +127,9 @@
    <NODE id="7" systemname="IOBox (Node)" componentmode="InABox" nodename="IOBox (Node)">
    <PIN pinname="Descriptive Name" slicecount="1" values="View">
    </PIN>
-   <BOUNDS type="Box" left="6915" top="245" width="750" height="240">
+   <BOUNDS type="Box" left="7200" top="155" width="750" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="6915" top="245" width="750" height="240">
+   <BOUNDS type="Node" left="7200" top="155" width="750" height="240">
    </BOUNDS>
    <PIN pinname="Output Node" visible="1">
    </PIN>
@@ -131,9 +139,9 @@
    <NODE id="8" systemname="IOBox (Node)" componentmode="InABox" nodename="IOBox (Node)">
    <PIN pinname="Descriptive Name" slicecount="1" values="Projection">
    </PIN>
-   <BOUNDS type="Box" left="7380" top="605" width="750" height="240">
+   <BOUNDS type="Box" left="7560" top="575" width="750" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="7380" top="605" width="750" height="240">
+   <BOUNDS type="Node" left="7560" top="575" width="750" height="240">
    </BOUNDS>
    <PIN pinname="Output Node" visible="1">
    </PIN>
@@ -163,9 +171,9 @@
    <NODE id="12" systemname="IOBox (Node)" componentmode="InABox" nodename="IOBox (Node)">
    <PIN pinname="Descriptive Name" slicecount="1" values="Texture">
    </PIN>
-   <BOUNDS type="Box" left="5190" top="200" width="750" height="240">
+   <BOUNDS type="Box" left="4905" top="230" width="750" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="5190" top="200" width="750" height="240">
+   <BOUNDS type="Node" left="4905" top="230" width="750" height="240">
    </BOUNDS>
    </NODE>
    <LINK srcnodeid="12" srcpinname="Output Node" dstnodeid="0" dstpinname="Texture">
@@ -173,17 +181,15 @@
    <BOUNDS type="Window" left="825" top="540" width="13530" height="9150">
    </BOUNDS>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="13" systemname="IOBox (Node)">
-   <BOUNDS type="Box" left="7065" top="8025" width="795" height="240">
+   <BOUNDS type="Box" left="7500" top="8070" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="7065" top="8025" width="0" height="0">
+   <BOUNDS type="Node" left="7500" top="8070" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" values="|Depth Buffer|">
    </PIN>
-   <PIN pinname="Input Node" visible="1">
+   <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
-   <LINK srcnodeid="2" srcpinname="Depth Buffer" dstnodeid="13" dstpinname="Input Node">
-   </LINK>
    <PACK Name="dx11" Version="1.3.1">
    </PACK>
    <PACK Name="vvvv-Message" Version="2.9.6">
@@ -281,9 +287,9 @@
    <NODE nodename="IOBox (String)" systemname="IOBox (String)" componentmode="InABox" id="31">
    <BOUNDS type="Node" left="8790" top="5820" width="1215" height="270">
    </BOUNDS>
-   <BOUNDS type="Box" left="8790" top="5820" width="3390" height="1125">
+   <BOUNDS type="Box" left="8790" top="5820" width="3495" height="1320">
    </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="|Tex0 : color Tex&cr;&lf;Tex1 : WorldNormal Tex&cr;&lf;Tex2 : WorldPosition Tex&cr;&lf;Tex3 : xy:PosScreen zw:Velocity|">
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|Tex0 : color Tex&cr;&lf;Tex1 : WorldNormal Tex&cr;&lf;Tex2 : rgb:Specular a:Roughness&cr;&lf;Tex3 : WorldPosition Tex&cr;&lf;Tex4 : rg:PosScreen ba:Velocity&cr;&lf;|">
    </PIN>
    <PIN pinname="Output String" visible="0">
    </PIN>
@@ -363,7 +369,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="4890" top="8025" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Position">
+   <PIN pinname="Descriptive Name" slicecount="1" values="SpecRough">
    </PIN>
    <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
    </PIN>
@@ -373,7 +379,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="5820" top="8010" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Descriptive Name" slicecount="1" values="PScvel">
+   <PIN pinname="Descriptive Name" slicecount="1" values="Position">
    </PIN>
    <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
    </PIN>
@@ -403,9 +409,9 @@
    <LINK srcnodeid="0" srcpinname="Layer" dstnodeid="2" dstpinname="Layer">
    </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="43">
-   <BOUNDS type="Box" left="5385" top="585" width="795" height="240">
+   <BOUNDS type="Box" left="5130" top="615" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="5385" top="585" width="0" height="0">
+   <BOUNDS type="Node" left="5130" top="615" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input Node" slicecount="1" visible="1" values="||">
    </PIN>
@@ -433,9 +439,9 @@
    <LINK srcnodeid="48" srcpinname="Output Enum" dstnodeid="0" dstpinname="Technique">
    </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="49">
-   <BOUNDS type="Box" left="6180" top="330" width="795" height="240">
+   <BOUNDS type="Box" left="6345" top="330" width="795" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="6180" top="330" width="0" height="0">
+   <BOUNDS type="Node" left="6345" top="330" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input Node" slicecount="1" visible="1" values="||">
    </PIN>
@@ -453,9 +459,9 @@
    <NODE systemname="SplitGBuffer" filename="SplitGBuffer.v4p" nodename="SplitGBuffer" componentmode="Hidden" id="46">
    <BOUNDS type="Node" left="4575" top="6795" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Window" left="2190" top="7815" width="9000" height="6000">
+   <BOUNDS type="Window" left="2865" top="7080" width="9000" height="6000">
    </BOUNDS>
-   <PIN pinname="GBuffer" visible="1">
+   <PIN pinname="GBuffer" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Color" visible="1">
    </PIN>
@@ -465,16 +471,16 @@
    </PIN>
    <PIN pinname="PScvel" visible="1">
    </PIN>
+   <PIN pinname="PSvel" visible="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="2" srcpinname="Buffers" dstnodeid="46" dstpinname="GBuffer">
-   </LINK>
    <LINK srcnodeid="46" srcpinname="Color" dstnodeid="38" dstpinname="Input Node">
    </LINK>
    <LINK srcnodeid="46" srcpinname="Normals" dstnodeid="39" dstpinname="Input Node">
    </LINK>
-   <LINK srcnodeid="46" srcpinname="Position" dstnodeid="40" dstpinname="Input Node">
+   <LINK srcnodeid="46" srcpinname="SpecRough" dstnodeid="40" dstpinname="Input Node">
    </LINK>
-   <LINK srcnodeid="46" srcpinname="PScvel" dstnodeid="41" dstpinname="Input Node">
+   <LINK srcnodeid="46" srcpinname="Position" dstnodeid="41" dstpinname="Input Node">
    </LINK>
    <NODE systemname="CamTransfromPool" filename="CamTransfromPool.v4p" nodename="CamTransfromPool" componentmode="Hidden" id="47">
    <BOUNDS type="Node" left="6894" top="2109" width="0" height="0">
@@ -511,5 +517,43 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="51" srcpinname="Y Output Value" dstnodeid="0" dstpinname="BumpMap Strength">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="54">
+   <BOUNDS type="Box" left="5625" top="165" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5625" top="165" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Node" slicecount="1" visible="1" values="||">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Roughness Map|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="54" srcpinname="Output Node" dstnodeid="0" dstpinname="Roughness Map">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="55">
+   <BOUNDS type="Box" left="5925" top="555" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5925" top="555" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Node" slicecount="1" visible="1" values="||">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Specular Map|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="55" srcpinname="Output Node" dstnodeid="0" dstpinname="Specular Map">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="56">
+   <BOUNDS type="Box" left="6600" top="7995" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="6600" top="7995" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" slicecount="1" values="PSvel">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="46" srcpinname="PSvel" dstnodeid="56" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Buffers" dstnodeid="46" dstpinname="GBuffer">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Depth Buffer" dstnodeid="13" dstpinname="Input Node">
    </LINK>
    </PATCH>

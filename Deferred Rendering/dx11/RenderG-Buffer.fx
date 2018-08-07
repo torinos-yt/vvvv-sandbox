@@ -1,5 +1,7 @@
 Texture2D coltex <string uiname="Texture";>;
 Texture2D BumpTex <string uiname="Bump Texture";>;
+Texture2D spectex <string uiname = "Specular Map";>;
+Texture2D roughtex <string uiname = "Roughness Map";>;
 
 bool IsBump = true;
 float bumps<string uiname = "BumpMap Strength"; float uimin = 0.0; float uimax = 5.0;> = 1;
@@ -65,8 +67,9 @@ struct vs2pstnb
 struct PSout{
 	float4 color : SV_Target0;
 	float4 normal : SV_Target1;
-	float4 position : SV_Target2;
-	float4 posvel : SV_Target3;
+	float4 specrough : SV_Target2;
+	float4 position : SV_Target3;
+	float4 posvel : SV_Target4;
 };
 
 vs2ps VS(VS_IN input)
@@ -102,9 +105,16 @@ vs2pstnb VS_TNB(VS_INTNB input)
 PSout PS(vs2ps In)
 {
 	PSout gbuffer;
+	
     gbuffer.color = float4(coltex.Sample(linearSampler, In.uv.xy).rgb, 1);
+	
 	float3 norm = In.NormW;
 	gbuffer.normal = float4(normalize(norm), 1);
+	
+	float3 spec = spectex.Sample(linearSampler, In.uv.xy).rgb;
+	float rough = roughtex.Sample(linearSampler, In.uv.xy).r;
+	gbuffer.specrough = float4(spec, rough);
+	
 	gbuffer.position = In.PosW;
 	float4 posV = mul(In.PosW, tVP);
 	float4 vel = mul(In.velocity, ptVP);
@@ -112,6 +122,7 @@ PSout PS(vs2ps In)
 	float2 velxy = possc - (vel / vel.w).xy;
 	velxy *= .5;
 	velxy += .5;
+	
 	gbuffer.posvel.zw = velxy;
 	gbuffer.posvel = float4(posV.xy, velxy);
 	
@@ -129,8 +140,14 @@ PSout PS_TNB(vs2pstnb In)
 	PSout gbuffer;
 	
     gbuffer.color = float4(coltex.Sample(linearSampler, In.uv.xy).rgb, 1);
+	
 	float3 norm = In.NormW;
 	gbuffer.normal = float4(normalize(norm), 1);
+	
+	float3 spec = spectex.Sample(linearSampler, In.uv.xy).rgb;
+	float rough = roughtex.Sample(linearSampler, In.uv.xy).r;
+	gbuffer.specrough = float4(spec, rough);
+	
 	gbuffer.position = In.PosW;
 	float4 posV = mul(In.PosW, tVP);
 	float4 vel = mul(In.velocity, ptVP);
@@ -138,6 +155,7 @@ PSout PS_TNB(vs2pstnb In)
 	float2 velxy = possc - (vel / vel.w).xy;
 	velxy *= .5;
 	velxy += .5;
+	
 	gbuffer.posvel.zw = velxy;
 	gbuffer.posvel = float4(posV.xy, velxy);
 	
