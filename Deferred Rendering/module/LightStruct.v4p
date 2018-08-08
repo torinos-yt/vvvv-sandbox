@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
-   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p" scrollx="1470" scrolly="240" systemname="LightStruct" filename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p">
+   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p" scrollx="375" scrolly="255" systemname="LightStruct" filename="F:\vvvv\work\sandbox\Deferred Rendering\module\LightStruct.v4p">
    <NODE systemname="DynamicBuffer (DX11.Buffer Custom)" filename="%VVVV%\packs\mp.dx\nodes\plugins\DX11Utils\x64\DX11Utils.dll" nodename="DynamicBuffer (DX11.Buffer Custom)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="2220" top="4995" width="100" height="100">
    </BOUNDS>
@@ -140,7 +140,7 @@
    </NODE>
    <LINK srcnodeid="12" srcpinname="Color Output" dstnodeid="4" dstpinname="Input">
    </LINK>
-   <BOUNDS type="Window" left="8070" top="2115" width="7440" height="6420">
+   <BOUNDS type="Window" left="2940" top="5880" width="7440" height="6420">
    </BOUNDS>
    <PACK Name="dx11" Version="1.3.1">
    </PACK>
@@ -437,7 +437,7 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="40">
+   <PIN pinname="Y Input Value" slicecount="1" values="86.23">
    </PIN>
    </NODE>
    <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="37">
@@ -458,6 +458,10 @@
    <PIN pinname="FOV" visible="1">
    </PIN>
    <PIN pinname="Transform Out" visible="1">
+   </PIN>
+   <PIN pinname="Far Plane" slicecount="1" values="260">
+   </PIN>
+   <PIN pinname="Near Plane" slicecount="1" values="0.05">
    </PIN>
    </NODE>
    <NODE systemname="Multiply (Transform)" nodename="Multiply (Transform)" componentmode="Hidden" id="38">

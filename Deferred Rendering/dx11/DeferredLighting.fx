@@ -1,4 +1,4 @@
-Texture2D albtex : PREVIOUS;
+Texture2D albtex;
 Texture2D ntex<string uiname = "Normal Pass";>;
 Texture2D postex<string uiname = "Position Pass";>;
 Texture2D specroug<string uiname = "SpecRough Map";>;
@@ -31,6 +31,9 @@ SamplerState shadowSampler : immutable
 	BorderColor = float4(1,1,1,0);
 
 };
+
+float4x4 tW : WORLD;
+float4x4 tVP : VIEWPROJECTION;
 
 struct Light{
 	float3 pos;
@@ -192,12 +195,27 @@ float3 ApproximateSpecularIBL( float3 SpecularColor , float Roughness , float3 N
 	return PrefilteredColor * ( SpecularColor * EnvBRDF.x + EnvBRDF.y );
 }
 
+
+struct VS_IN
+{
+	float4 PosO : POSITION;
+	float4 TexCd : TEXCOORD0;
+
+};
+
 struct psInput
 {
 	float4 p : SV_Position;
 	float2 uv : TEXCOORD0;
 };
 
+psInput VS(VS_IN input)
+{
+    psInput output;
+    output.p  = mul(input.PosO,mul(tW,tVP));
+    output.uv = input.TexCd.xy;
+    return output;
+}
 
 float4 PS(psInput input) : SV_Target
 {
@@ -236,13 +254,19 @@ float4 PS(psInput input) : SV_Target
 	return float4(lighting, 1);
 }
 
-technique10 PointLighting
+
+
+
+
+technique10 SpotLighting
 {
-	pass P0 
+	pass P0
 	{
-		SetPixelShader(CompileShader(ps_4_0,PS()));
+		SetVertexShader( CompileShader( vs_4_0, VS() ) );
+		SetPixelShader( CompileShader( ps_4_0, PS() ) );
 	}
 }
+
 
 
 
