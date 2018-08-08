@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
-   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\Deferred.v4p" scrollx="840" scrolly="2175" systemname="Deferred" filename="F:\vvvv\work\sandbox\Deferred Rendering\Deferred.v4p">
+   <PATCH nodename="F:\vvvv\work\sandbox\Deferred Rendering\Deferred.v4p" scrollx="765" scrolly="1965" systemname="Deferred" filename="F:\vvvv\work\sandbox\Deferred Rendering\Deferred.v4p">
    <BOUNDS type="Window" left="-1485" top="525" width="14640" height="15075">
    </BOUNDS>
    <NODE systemname="Camera (Transform Orbit)" filename="%VVVV%\lib\packs\VL.EditingFramework.0.79.17-g63a3d4ba77\vvvv\nodes\modules\Camera (Transform Orbit).v4p" nodename="Camera (Transform Orbit)" componentmode="Hidden" id="2">
@@ -39,7 +39,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="8022" top="5267" width="5455" height="5205">
    </BOUNDS>
-   <BOUNDS type="Window" left="8070" top="2115" width="7440" height="6420">
+   <BOUNDS type="Window" left="4395" top="2400" width="7440" height="6420">
    </BOUNDS>
    <PIN pinname="Light Struct" visible="1">
    </PIN>
@@ -701,9 +701,9 @@
    <LINK srcnodeid="34" srcpinname="Color Output" dstnodeid="52" dstpinname="Ambient">
    </LINK>
    <NODE systemname="FileTexture (DX11 2d)" filename="%VVVV%\packs\dx11\nodes\plugins\base\VVVV.DX11.Nodes.dll" nodename="FileTexture (DX11 2d)" componentmode="Hidden" id="164">
-   <BOUNDS type="Node" left="2382" top="7767" width="100" height="100">
+   <BOUNDS type="Node" left="3222" top="7932" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="2382" top="7767" width="2400" height="2400">
+   <BOUNDS type="Box" left="3222" top="7932" width="2400" height="2400">
    </BOUNDS>
    <PIN pinname="Filename" slicecount="1" values="..\..\..\APP\_VVVV\vvvv_50beta36_x64\packs\SuperPhysical\assets\ibl\studio\output_refl.dds">
    </PIN>
@@ -827,7 +827,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="5985" top="15645" width="6000" height="4500">
    </BOUNDS>
-   <BOUNDS type="Window" left="11550" top="795" width="16920" height="10350">
+   <BOUNDS type="Window" left="14265" top="675" width="16920" height="10350">
    </BOUNDS>
    <PIN pinname="Texture In" visible="1" slicecount="1" values="||">
    </PIN>
@@ -852,12 +852,12 @@
    </NODE>
    <LINK srcnodeid="76" srcpinname="Texture Out" dstnodeid="197" dstpinname="Texture In">
    </LINK>
-   <NODE systemname="PBRShading (DX11.Texture)" filename="module\PBRShading (DX11.Texture).v4p" nodename="module\PBRShading (DX11.Texture).v4p" componentmode="Hidden" id="200">
+   <NODE systemname="DeferredPBR (DX11.Texture)" filename="module\DeferredPBR (DX11.Texture).v4p" nodename="module\DeferredPBR (DX11.Texture).v4p" componentmode="Hidden" id="200">
    <BOUNDS type="Node" left="5017" top="9097" width="0" height="0">
    </BOUNDS>
    <BOUNDS type="Box" left="3430" top="7285" width="3175" height="3625">
    </BOUNDS>
-   <BOUNDS type="Window" left="300" top="4470" width="22410" height="9240">
+   <BOUNDS type="Window" left="-255" top="4245" width="22410" height="9240">
    </BOUNDS>
    <PIN pinname="Render State" visible="1">
    </PIN>
@@ -1113,7 +1113,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="9465" top="12720" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -1125,7 +1125,7 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Bloom">
    </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="1">
+   <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
    <LINK srcnodeid="251" srcpinname="Y Output Value" dstnodeid="250" dstpinname="Enabled">
