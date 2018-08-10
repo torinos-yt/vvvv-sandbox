@@ -17,16 +17,16 @@ TextureCube EnvMap<string uiname = "Environment Map";>;
 
 SamplerState linearSampler : IMMUTABLE
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 SamplerState shadowSampler : immutable
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = BORDER;
-    AddressV = BORDER;
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = BORDER;
+	AddressV = BORDER;
 	AddressW = BORDER;
 	BorderColor = float4(1,1,1,0);
 
@@ -77,51 +77,51 @@ float ShadowContribution(float3 LightCd, float LightDist, int i, float LightBlee
 
 float3 fresnelSphericalGaussian(float dotVH, float3 F0)
 {
-    return F0 + (1.0 - F0) * exp2((-5.55473 * dotVH - 6.98316) * dotVH);
+	return F0 + (1.0 - F0) * exp2((-5.55473 * dotVH - 6.98316) * dotVH);
 }  
 
 float sqr(float x) { return x*x; }
 
 float D_GGX(float3 N, float3 H, float alpha){
 	float cosThetaM = dot(N, H);
-    float CosSquared = cosThetaM*cosThetaM;
-    float TanSquared = (1-CosSquared)/CosSquared;
-    return (1.0/PI) * sqr(alpha/(CosSquared * (alpha*alpha + TanSquared)));
+	float CosSquared = cosThetaM*cosThetaM;
+	float TanSquared = (1-CosSquared)/CosSquared;
+	return (1.0/PI) * sqr(alpha/(CosSquared * (alpha*alpha + TanSquared)));
 }
 
 float GeometrySchlickGGX(float NdotV, float roughness)
 {
-    float r = (roughness + 1.0);
-    float k = (r*r) / 8.0;
+	float r = (roughness + 1.0);
+	float k = (r*r) / 8.0;
 
-    float nom   = NdotV;
-    float denom = NdotV * (1.0 - k) + k;
-    
-    return nom / denom;
+	float nom   = NdotV;
+	float denom = NdotV * (1.0 - k) + k;
+	
+	return nom / denom;
 }
 
 float GeometrySmith(float3 N, float3 V, float3 L, float roughness)
 {
-    float dotNV = max(dot(N, V), 0.0);
-    float dotNL = max(dot(N, L), 0.0);
-    float ggx2  = GeometrySchlickGGX(dotNV, roughness);
-    float ggx1  = GeometrySchlickGGX(dotNL, roughness);
-    
-    return ggx1 * ggx2;
+	float dotNV = max(dot(N, V), 0.0);
+	float dotNL = max(dot(N, L), 0.0);
+	float ggx2  = GeometrySchlickGGX(dotNV, roughness);
+	float ggx1  = GeometrySchlickGGX(dotNL, roughness);
+	
+	return ggx1 * ggx2;
 }
 
 float3 CookTorrance(float3 V, float3 L, float3 N, float3 H, float roughness, float3 diff, float3 ambient,float3 ldiff, float shadow, float3 spec){
 	float3 f = fresnelSphericalGaussian(max(dot(V, H), 0.0), spec);
 	float d = D_GGX(N, H, sqr(roughness));
-    float g = GeometrySmith(N, V, L, roughness);
+	float g = GeometrySmith(N, V, L, roughness);
 	float3 nominator  = d * g * f;
-    float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001; 
-    float3 spe = nominator / denominator;
+	float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001; 
+	float3 spe = nominator / denominator;
 	ldiff *= shadow + diff * .1;
-    float3 dif = diff * (1.0 / PI + spe) * 2.5;
+	float3 dif = diff * (1.0 / PI + spe) * 2.5;
 	dif *= max(dot(N, L), 0.0);
  
-    return (dif * ldiff  + ambient) ;
+	return (dif * ldiff  + ambient) ;
 }
 
 
@@ -145,16 +145,16 @@ float3 ImportanceSampleGGX( float2 Xi, float Roughness , float3 N ){
 }
 
 float radicalInverse_VdC(uint bits) {
-     bits = (bits << 16u) | (bits >> 16u);
-     bits = ((bits & 0x55555555u) << 1u) | ((bits & 0xAAAAAAAAu) >> 1u);
-     bits = ((bits & 0x33333333u) << 2u) | ((bits & 0xCCCCCCCCu) >> 2u);
-     bits = ((bits & 0x0F0F0F0Fu) << 4u) | ((bits & 0xF0F0F0F0u) >> 4u);
-     bits = ((bits & 0x00FF00FFu) << 8u) | ((bits & 0xFF00FF00u) >> 8u);
-     return float(bits) * 2.3283064365386963e-10; // / 0x100000000
+	 bits = (bits << 16u) | (bits >> 16u);
+	 bits = ((bits & 0x55555555u) << 1u) | ((bits & 0xAAAAAAAAu) >> 1u);
+	 bits = ((bits & 0x33333333u) << 2u) | ((bits & 0xCCCCCCCCu) >> 2u);
+	 bits = ((bits & 0x0F0F0F0Fu) << 4u) | ((bits & 0xF0F0F0F0u) >> 4u);
+	 bits = ((bits & 0x00FF00FFu) << 8u) | ((bits & 0xFF00FF00u) >> 8u);
+	 return float(bits) * 2.3283064365386963e-10; // / 0x100000000
  }
 
 float2 Hammersley(uint i, uint N) {
-     return float2(float(i)/float(N), radicalInverse_VdC(i));
+	 return float2(float(i)/float(N), radicalInverse_VdC(i));
  }
 
 float3 PrefilterEnvMap( float Roughness , float3 R ){

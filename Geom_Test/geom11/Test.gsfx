@@ -4,9 +4,9 @@
 
 SamplerState linearSampler: IMMUTABLE
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Wrap;
+	AddressV = Wrap;
 };
 
 float4x4 tW;
@@ -30,9 +30,9 @@ float Map01(float input, float dmi, float dma){
 
 float4x4 rotmat(float angle){
 	return float4x4(cos(radians(angle)), 0, sin(radians(angle)), 0,
-					0				   , 1, 0                  , 0,
+					0				   , 1, 0				  , 0,
 					-sin(radians(angle)), 0, cos(radians(angle)),0,
-					0                  , 0, 0                  , 1);
+					0				  , 0, 0				  , 1);
 }
 
 #define EPSILON 1e-3
@@ -62,9 +62,9 @@ struct vs2gs
 
 struct gsout
 {
-    float4 pos: POSITION;
-    float3 norm : NORMAL;
-    float2 TexCd : TEXCOORD0;
+	float4 pos: POSITION;
+	float3 norm : NORMAL;
+	float2 TexCd : TEXCOORD0;
 };
 
 vs2gs VS(
@@ -79,7 +79,7 @@ vs2gs VS(
 	Out.norm = Normal;
 	Out.UV = UV;
 	
-    return Out;
+	return Out;
 }
 
 [maxvertexcount(7)]
@@ -150,9 +150,9 @@ GeometryShader StreamOutGS = ConstructGSWithSO( CompileShader( gs_4_0, GS_Test()
 
 technique10 PassMesh
 {
-    pass PP2
-    {
-        SetVertexShader( CompileShader( vs_4_0, VS() ) );
-        SetGeometryShader( StreamOutGS );
-    }  
+	pass PP2
+	{
+		SetVertexShader( CompileShader( vs_4_0, VS() ) );
+		SetGeometryShader( StreamOutGS );
+	}  
 }

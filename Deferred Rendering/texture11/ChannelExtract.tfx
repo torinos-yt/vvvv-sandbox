@@ -7,9 +7,9 @@ Texture2D texture2d : PREVIOUS;
 
 SamplerState linearSampler : IMMUTABLE
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 struct psInput

@@ -8,9 +8,9 @@ float bumps<string uiname = "BumpMap Strength"; float uimin = 0.0; float uimax =
 
 SamplerState linearSampler : IMMUTABLE
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Wrap;
+	AddressV = Wrap;
 };
  
 cbuffer cbPerDraw : register( b0 )
@@ -47,20 +47,20 @@ struct VS_INTNB
 
 struct vs2ps
 {
-    float4 PosWVP: SV_Position;
+	float4 PosWVP: SV_Position;
 	float4 PosW : TEXCOORD1;
 	float4 velocity : TEXCOORD2;
-    float4 uv: TEXCOORD0;
+	float4 uv: TEXCOORD0;
 	float3 tangent : TEXCOORD3;
 	float3 NormW : NORMAL;
 };
 
 struct vs2pstnb
 {
-    float4 PosWVP: SV_Position;
+	float4 PosWVP: SV_Position;
 	float4 PosW : TEXCOORD1;
 	float4 velocity : TEXCOORD2;
-    float4 uv: TEXCOORD0;
+	float4 uv: TEXCOORD0;
 	float3 NormW : NORMAL;
 };
 
@@ -74,29 +74,29 @@ struct PSout{
 
 vs2ps VS(VS_IN input)
 {
-    vs2ps output;
-    output.PosWVP  = mul(input.PosO,mul(tW,tVP));
+	vs2ps output;
+	output.PosWVP  = mul(input.PosO,mul(tW,tVP));
 	float4 PosW = mul(input.PosO, tW);
 	float4 velocity = mul(input.PosO, ptW);
 	output.PosW = PosW;
 	output.velocity = velocity;
-    output.uv = mul(input.TexCd, texW);;
+	output.uv = mul(input.TexCd, texW);;
 	output.NormW = normalize(mul(input.Norm, (float3x3)tWIT));
 	output.tangent = normalize(mul(input.tangent, (float3x3)tW).xyz);
-    return output;
+	return output;
 }
 
 vs2pstnb VS_TNB(VS_INTNB input)
 {
-    vs2pstnb output;
-    output.PosWVP  = mul(input.PosO,mul(tW,tVP));
+	vs2pstnb output;
+	output.PosWVP  = mul(input.PosO,mul(tW,tVP));
 	float4 PosW = mul(input.PosO, tW);
 	float4 velocity = mul(input.PosO, ptW);
 	output.PosW = PosW;
 	output.velocity = velocity;
-    output.uv = mul(input.TexCd, texW);
+	output.uv = mul(input.TexCd, texW);
 	output.NormW = normalize(mul(input.Norm, (float3x3)tWIT));
-    return output;
+	return output;
 }
 
 
@@ -106,7 +106,7 @@ PSout PS(vs2ps In)
 {
 	PSout gbuffer;
 	
-    gbuffer.color = float4(coltex.Sample(linearSampler, In.uv.xy).rgb, 1);
+	gbuffer.color = float4(coltex.Sample(linearSampler, In.uv.xy).rgb, 1);
 	
 	float3 norm = In.NormW;
 	gbuffer.normal = float4(normalize(norm), 1);
@@ -132,14 +132,14 @@ PSout PS(vs2ps In)
 		nmap = nmap * 2.0 - 1.0;
 		gbuffer.normal = float4(normalize(norm + (nmap.x * In.tangent + nmap.y * bnormal) * bumps), 1);
 	}
-    return gbuffer;
+	return gbuffer;
 }
 
 PSout PS_TNB(vs2pstnb In)
 {
 	PSout gbuffer;
 	
-    gbuffer.color = float4(coltex.Sample(linearSampler, In.uv.xy).rgb, 1);
+	gbuffer.color = float4(coltex.Sample(linearSampler, In.uv.xy).rgb, 1);
 	
 	float3 norm = In.NormW;
 	gbuffer.normal = float4(normalize(norm), 1);
@@ -182,7 +182,7 @@ PSout PS_TNB(vs2pstnb In)
 		nmap = nmap * 2.0 - 1.0;
 		gbuffer.normal = float4(normalize(norm + (nmap.x * t + nmap.y * b) * bumps), 1);
 	}
-    return gbuffer;
+	return gbuffer;
 }
 
 

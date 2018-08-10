@@ -8,15 +8,15 @@ Texture2D texture2d <string uiname="Texture";>;
 #define depthOffset 0.0001
 
 float  shadowThreshold = 1.0f; 
-float  bias            = 0.01f; 
+float  bias			   = 0.01f; 
 float  slopeScaledBias = 0.01f; 
 float  depthBiasClamp  = 0.1f;
 
 SamplerState linearSampler : IMMUTABLE
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 struct Light{
@@ -48,16 +48,16 @@ struct VS_IN
 
 struct vs2ps
 {
-    float4 PosW: POSITION;
-    float4 PosWVP : SV_Position;
+	float4 PosW: POSITION;
+	float4 PosWVP : SV_Position;
 };
 
 vs2ps VS(VS_IN input)
 {
-    vs2ps output;
-    output.PosW  = mul(input.PosO, tW);
+	vs2ps output;
+	output.PosW  = mul(input.PosO, tW);
 	output.PosWVP = mul(input.PosO,mul(tW,tVP));
-    return output;
+	return output;
 }
 
 
@@ -66,7 +66,7 @@ vs2ps VS(VS_IN input)
 float4 PS(vs2ps In): SV_Target
 {
 	float4 col = 0;
-    float dist = distance(lights[vpindex].pos, In.PosW.xyz) + depthOffset;
+	float dist = distance(lights[vpindex].pos, In.PosW.xyz) + depthOffset;
 	float  maxDepthSlope = max( abs( ddx( dist ) ), abs( ddy( dist ) ) );
 	
 	float  shadowBias = bias + slopeScaledBias * maxDepthSlope;
@@ -74,7 +74,7 @@ float4 PS(vs2ps In): SV_Target
 	
 	col.r = dist - shadowBias;
 	col.g = dist * dist;
-    return col;
+	return col;
 }
 
 

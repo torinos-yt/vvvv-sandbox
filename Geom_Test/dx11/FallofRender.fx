@@ -5,9 +5,9 @@ float fall;
 
 SamplerState linearSampler : IMMUTABLE
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
  
 cbuffer cbPerDraw : register( b0 )
@@ -23,19 +23,19 @@ cbuffer cbPerObj : register( b1 )
 
 struct gsout
 {
-    float4 pos: SV_POSITION;
+	float4 pos: SV_POSITION;
 };
 
 struct vs2gs
 {
-    float4 PosWVP: SV_Position;
+	float4 PosWVP: SV_Position;
 };
 
 vs2gs VS()
 {
-    vs2gs output;
-    output.PosWVP  = float4(0,0,0,1);
-    return output;
+	vs2gs output;
+	output.PosWVP  = float4(0,0,0,1);
+	return output;
 }
 
 [maxvertexcount(30)]
@@ -76,8 +76,8 @@ void Fallof(point vs2gs input[1], inout LineStream<gsout> outstream){
 
 float4 PS(gsout In): SV_Target
 {
-    float4 col = float4(1,1,0,1);
-    return col;
+	float4 col = float4(1,1,0,1);
+	return col;
 }
 
 
