@@ -107,17 +107,18 @@ float distfunc(float3 rayPos, float3 size){
 
 float distfunc(float3 rayPos, float3 size){
 	float3 p = fmod(rayPos, 2.0)-2.0*.5;
+	//p = rayPos;
 	
 	float mr = .25, mxr = 1.0;
-	float4 scale = size.x, p0 = float4(0.0, 1.59, -1.0, 0.0);
+	float4 scale = size.x, p0 = float4(0.0, 0.59, -1.0, 0.0);
 	float4 z = float4(p, 1.0);
-	for(int n = 0; n < 4; n++){
-		z.xyz = clamp(z.xyz, -0.94, 0.94) * 2.0 - z.xyz;
-		z *= scale / clamp(dot(z.xyz, z.xyz), mr, mxr) * 1.0;
+	for(int n = 0; n < 8; n++){
+		z.xyz = clamp(z.xyz, -0.94, 0.94) * 2 - z.xyz;
+		z *= scale / clamp(dot(z.xyz, z.xyz), mr, mxr) * .97;
 		z += p0;
 	}
 	
-	float ds = (length(max(abs(z.xyz) - float3(1.2,49.0,1.4), 0.0)) - .06) / z.w;
+	float ds = (length(max(abs(z.xyz) - float3(.2,90.0,.8), 0.0)) - .7) / z.w;
 	return ds;
 }
 
