@@ -7,13 +7,13 @@
 #define ITERATION 30
 #endif
 
-Texture2D texture2d <string uiname="Texture";>;
+Texture2D tex <string uiname="Texture";>;
 
 SamplerState linearSampler : IMMUTABLE
 {
     Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
+    AddressU = Wrap;
+    AddressV = Wrap;
 };
  
 cbuffer cbPerDraw : register( b0 )
@@ -35,6 +35,10 @@ float3 LightDir = normalize(float3(1.0,1.0,1.0));
 
 float maxd<string uiname = "Max Distance";> = 500;
 float mind<string uiname = "Min Distance";> = .01;
+
+float stepLength = 1;
+
+float uvScale = 2;
 
 struct VS_IN
 {
@@ -61,8 +65,9 @@ float distfunc(float3 pos, float size){
 */
 
 /* //box
-float distfunc(float3 rayPos, float size){
-	return length(max(abs(rayPos) - size, 0.0));
+float distfunc(float3 rayPos, float3 size){
+	rayPos = fmod(rayPos, 15) - 15 *.5;
+	return length(max(abs(rayPos) - size, 0.0))-.1;
 }
 */
 
@@ -75,7 +80,7 @@ float distfunc(float3 rayPos, float3 size){
 
 /* //fractal
 float distfunc(float3 rayPos, float3 size){
-
+	float3 p = rayPos = fmod(rayPos, 2) - 2*.5;
 	
 	float3 a1 = float3(1,1,1);
 	float3 a2 = float3(-1,-1,1);
@@ -85,44 +90,88 @@ float distfunc(float3 rayPos, float3 size){
 	float d;
 	for(int n = 0; n < 20; n++){
 		float3 c = a1;
-		float minD = length(rayPos - a1);
-		d = length(rayPos - a2); 
+		float minD = length(p - a1);
+		d = length(p - a2); 
 		if(d < minD) {
 			c = a2; minD = d;
 		}
-		d = length(rayPos - a3); 
+		d = length(p - a3); 
 		if(d < minD) {
 			c = a3; minD = d;
 		}
-		d = length(rayPos - a4); 
+		d = length(p - a4); 
 		if(d < minD) {
 			c = a4; minD = d;
 		}
-		rayPos = size * rayPos - c * (size - 1.0);
+		p = size * p - c * (size - 1.0);
 	}
 	
-	return length(rayPos) * pow(abs(size.x), float(-n));
+	return length(p) * pow(abs(size.x), float(-n));
 }
 */
 
+
 float distfunc(float3 rayPos, float3 size){
 	float3 p = fmod(rayPos, 2.0)-2.0*.5;
-	//p = rayPos;
+	//float3 p = rayPos;
 	
 	float mr = .25, mxr = 1.0;
 	float4 scale = size.x, p0 = float4(0.0, 0.59, -1.0, 0.0);
 	float4 z = float4(p, 1.0);
-	for(int n = 0; n < 8; n++){
+	for(int n = 0; n < 9; n++){
 		z.xyz = clamp(z.xyz, -0.94, 0.94) * 2 - z.xyz;
 		z *= scale / clamp(dot(z.xyz, z.xyz), mr, mxr) * .97;
 		z += p0;
 	}
 	
-	float ds = (length(max(abs(z.xyz) - float3(.2,90.0,.8), 0.0)) - .7) / z.w;
+	float ds = (length(max(abs(z.xyz), 0.0))) / z.w;
 	return ds;
 }
 
 
+/*
+static const float minRadius2 = 0.5;
+static const float fixedRadius2 = 1.0;
+static const float foldingLimit = 1.0;
+
+void spherefold(inout float3 z, inout float dz) {
+	float r2 = dot(z,z);
+	if (r2 < minRadius2) {
+		// linear inner scaling
+		float temp = (fixedRadius2 / minRadius2);
+		z *= temp;
+		dz *= temp;
+	} else if (r2 < fixedRadius2) {
+		// this is the actual sphere inversion
+		float temp = fixedRadius2 / r2;
+		z *= temp;
+		dz *= temp;
+	}
+}
+void boxfold(inout float3 z, inout float dz) {
+	z = clamp(z, -foldingLimit, foldingLimit) * 2.0 - z;
+}
+float mb(float3 rayPos, float3 scale) {
+	float3 offset = rayPos;
+	float dr = 1.0;
+	for (int n = 0; n < 7; n++) {
+		boxfold(rayPos, dr);       // Reflect
+		spherefold(rayPos, dr);    // Sphere Inversion
+		rayPos = scale.x * rayPos + offset;  // Scale & Translate
+		dr = dr * abs(scale.x) + 1.0;
+	}
+	float r = length(rayPos);
+	return r / abs(dr);
+}
+
+static const float3 scale2 = -1.9;
+
+float distfunc(float3 rayPos, float3 scale){
+	float p = mb(rayPos, scale);
+	//float p1 = mb(rayPos, scale2);
+	return p;
+}
+*/
 
 float3 getNormal(float3 pos, float3 size){
 	float ep = .001;
@@ -157,13 +206,55 @@ psout PS(psinput input)
 		float d = distfunc(mul(float4(rayPos,1), tWI).xyz, size);
 		if(d < 0.001){
 			float3 normal = normalize(mul(float4(getNormal(mul(float4(rayPos,1), tWI).xyz, size),0), tW).xyz);
-			color = float4((dot(LightDir, normal) * cAmb.xyz)+.35, 1);
+			float u = rayPos.x*uvScale;
+			float v = rayPos.y*uvScale;
+			float4 texel = tex.SampleLevel(linearSampler, float2(u,v),0);
+			color = float4((texel.rgb * dot(LightDir, normal) * cAmb.rgb )+.45, 1);
 			color += float4(normal*.09, 0);
 			color = min(color, mamb);
+			
 			break;
 		}
 		if(total > maxd) break;
-		rayPos += rayDir*d;
+		rayPos += rayDir*d * stepLength;
+		total += d;
+	}
+	
+	output.col = color;
+	float4 posw = mul(float4(rayPos, 1), tVP);
+	output.depth = posw.z / posw.w;
+	
+	return output;
+}
+
+psout PS_Constant(psinput input)
+{
+	
+	psout output;
+	float mamb = .85;
+	float4 color = mamb;
+	
+	float3 rayDir = normalize(mul(float4(mul(float4((input.uv*2.0-1.0)*float2(1,-1),0,1), tPI).xy,1,0), tVI).xyz);
+	float3 rayPos = tVI[3].xyz;
+	float total = 0;
+	
+	rayPos += rayDir * mind;
+	
+	for(int i = 0; i < ITERATION; i++){
+		float d = distfunc(mul(float4(rayPos,1), tWI).xyz, size);
+		if(d < 0.001){
+			float3 normal = normalize(mul(float4(getNormal(mul(float4(rayPos,1), tWI).xyz, size),0), tW).xyz);
+			float u = (rayPos.x+rayPos.z)*uvScale;
+			float v = (rayPos.y+rayPos.z)*uvScale;
+			float4 texel = tex.SampleLevel(linearSampler, float2(u,v),0);
+			color = texel;
+			//color = float4(normal, 1.0);
+			color = min(color, mamb);
+			
+			break;
+		}
+		if(total > maxd) break;
+		rayPos += rayDir*d * stepLength;
 		total += d;
 	}
 	
@@ -179,6 +270,15 @@ psout PS(psinput input)
 
 
 technique10 Constant
+{
+	pass P0
+	{
+		SetVertexShader( CompileShader( vs_4_0, VS() ) );
+		SetPixelShader( CompileShader( ps_4_0, PS_Constant() ) );
+	}
+}
+
+technique10 Lambert
 {
 	pass P0
 	{

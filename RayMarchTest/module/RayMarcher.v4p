@@ -1,7 +1,7 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50beta36.dtd" >
    <PATCH nodename="C:\vvvv\work\sandbox\RayMarchTest\module\RayMarcher.v4p" systemname="RayMarcher" filename="C:\vvvv\work\sandbox\RayMarchTest\module\RayMarcher.v4p">
    <NODE systemname="RaymarchTest (DX11.Effect)" filename="..\dx11\RaymarchTest.fx" nodename="RaymarchTest (DX11.Effect)" componentmode="Hidden" id="0">
-   <BOUNDS type="Node" left="1548" top="2400" width="100" height="100">
+   <BOUNDS type="Node" left="1644" top="2436" width="100" height="100">
    </BOUNDS>
    <PIN pinname="LightDirXYZ" visible="1">
    </PIN>
@@ -31,6 +31,14 @@
    </PIN>
    <PIN pinname="col" slicecount="1" values="|0.00000,0.00000,0.00000,0.00000|">
    </PIN>
+   <PIN pinname="stepLength" visible="1">
+   </PIN>
+   <PIN pinname="Texture" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="uvScale" slicecount="1" visible="1" values="2.12">
+   </PIN>
+   <PIN pinname="Technique" slicecount="1" visible="1" values="Constant">
+   </PIN>
    </NODE>
    <NODE systemname="Quad (DX11.Geometry)" filename="%VVVV%\packs\dx11\nodes\plugins\base\VVVV.DX11.Nodes.dll" nodename="Quad (DX11.Geometry)" componentmode="Hidden" id="1">
    <BOUNDS type="Node" left="1500" top="1668" width="100" height="100">
@@ -43,7 +51,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Add (String)" nodename="Add (String)" componentmode="Hidden" id="2">
-   <BOUNDS type="Node" left="5280" top="2268" width="100" height="100">
+   <BOUNDS type="Node" left="5520" top="2076" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 2" visible="1">
    </PIN>
@@ -53,9 +61,9 @@
    </PIN>
    </NODE>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="3">
-   <BOUNDS type="Node" left="5460" top="1500" width="100" height="100">
+   <BOUNDS type="Node" left="5700" top="1308" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="5460" top="1500" width="792" height="240">
+   <BOUNDS type="Box" left="5700" top="1308" width="792" height="240">
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" values="Iterations">
    </PIN>
@@ -67,7 +75,7 @@
    </PIN>
    </NODE>
    <NODE systemname="AsString (Value)" nodename="AsString (Value)" componentmode="Hidden" id="4">
-   <BOUNDS type="Node" left="5472" top="1884" width="100" height="100">
+   <BOUNDS type="Node" left="5712" top="1692" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -165,5 +173,67 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="11" srcpinname="Color Output" dstnodeid="0" dstpinname="Color">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="12">
+   <BOUNDS type="Box" left="5244" top="924" width="792" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5244" top="924" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="stepLength">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="12" srcpinname="Y Output Value" dstnodeid="0" dstpinname="stepLength">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="13">
+   <BOUNDS type="Box" left="1788" top="840" width="792" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1788" top="840" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Node" slicecount="1" visible="1" values="||">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Texture - Texture Out|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="13" srcpinname="Output Node" dstnodeid="0" dstpinname="Texture">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="14">
+   <BOUNDS type="Box" left="2424" top="948" width="792" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2424" top="948" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="2.12">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="uvScale">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="14" srcpinname="Y Output Value" dstnodeid="0" dstpinname="uvScale">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="15">
+   <BOUNDS type="Box" left="5964" top="2340" width="1596" height="276">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5964" top="2340" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" visible="1" values="Constant">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="Constant">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Technique">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="15" srcpinname="Output Enum" dstnodeid="0" dstpinname="Technique">
    </LINK>
    </PATCH>
