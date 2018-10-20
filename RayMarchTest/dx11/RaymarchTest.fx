@@ -116,9 +116,9 @@ float distfunc(float3 rayPos, float3 size){
 	//float3 p = rayPos;
 	
 	float mr = .25, mxr = 1.0;
-	float4 scale = size.x, p0 = float4(0.0, 0.59, -1.0, 0.0);
-	float4 z = float4(p, 1.0);
-	for(int n = 0; n < 9; n++){
+	float4 scale = size.x, p0 = float4(0, 0.59, -1.0, 0.0);
+	float4 z = float4(p, 1);
+	for(int n = 0; n < 8; n++){
 		z.xyz = clamp(z.xyz, -0.94, 0.94) * 2 - z.xyz;
 		z *= scale / clamp(dot(z.xyz, z.xyz), mr, mxr) * .97;
 		z += p0;

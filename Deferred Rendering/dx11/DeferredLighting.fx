@@ -15,15 +15,13 @@ TextureCube EnvMap<string uiname = "Environment Map";>;
 
 
 
-SamplerState linearSampler : IMMUTABLE
-{
+SamplerState linearSampler : IMMUTABLE{
 	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Clamp;
 	AddressV = Clamp;
 };
 
-SamplerState shadowSampler : immutable
-{
+SamplerState shadowSampler : immutable{
 	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = BORDER;
 	AddressV = BORDER;
@@ -78,8 +76,7 @@ float ShadowContribution(float3 LightCd, float LightDist, int i, float LightBlee
 	return ChebyshevUpperBound(Moments, LightDist, LightBleedingLimit);
 }
 
-float3 fresnelSphericalGaussian(float dotVH, float3 F0)
-{
+float3 fresnelSphericalGaussian(float dotVH, float3 F0){
 	return F0 + (1.0 - F0) * exp2((-5.55473 * dotVH - 6.98316) * dotVH);
 }  
 
@@ -92,8 +89,7 @@ float D_GGX(float3 N, float3 H, float alpha){
 	return (1.0/PI) * sqr(alpha/(CosSquared * (alpha*alpha + TanSquared)));
 }
 
-float GeometrySchlickGGX(float NdotV, float roughness)
-{
+float GeometrySchlickGGX(float NdotV, float roughness){
 	float r = (roughness + 1.0);
 	float k = (r*r) / 8.0;
 
@@ -103,8 +99,7 @@ float GeometrySchlickGGX(float NdotV, float roughness)
 	return nom / denom;
 }
 
-float GeometrySmith(float3 N, float3 V, float3 L, float roughness)
-{
+float GeometrySmith(float3 N, float3 V, float3 L, float roughness){
 	float dotNV = max(dot(N, V), 0.0);
 	float dotNL = max(dot(N, L), 0.0);
 	float ggx2  = GeometrySchlickGGX(dotNV, roughness);
@@ -121,10 +116,10 @@ float3 CookTorrance(float3 V, float3 L, float3 N, float3 H, float roughness, flo
 	float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001; 
 	float3 spe = nominator / denominator;
 	ldiff *= shadow + diff * .1;
-	float3 dif = diff * (1.0 / PI + spe) * 2.5;
-	dif *= max(dot(N, L), 0.0);
+	float3 dif = diff * (1.0 / PI) + spe ;
+	float ndl = max(dot(N, L), 0.0);
  
-	return (dif * ldiff  + ambient) ;
+	return (dif* ldiff * ndl + ambient) ;
 }
 
 
@@ -217,8 +212,7 @@ psInput VS(VS_IN input)
 	return output;
 }
 
-float4 PS(psInput input) : SV_Target
-{
+float4 PS(psInput input) : SV_Target{
 	float3 pos = float3(postex.Sample(linearSampler, input.uv).rgb);
 	float3 N = ntex.Sample(linearSampler, input.uv).rgb;
 	float3 V = normalize(campos - pos);
@@ -248,7 +242,7 @@ float4 PS(psInput input) : SV_Target
 		
 	}
 	
-	lighting += ApproximateSpecularIBL(Specular, Roughness, N, V) * (albedo.xyz + .2) * iblint;
+	lighting += ApproximateSpecularIBL(Specular, Roughness, N, V) * iblint;
 	//lighting *= albedo.a;
 	
 	return float4(lighting, 1);
